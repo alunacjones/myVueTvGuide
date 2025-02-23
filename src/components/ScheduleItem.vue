@@ -71,6 +71,10 @@ const summary = computed(() => props.value.isMorning
     font-size: 8pt;
 }
 
+.schedule-item-details:last-child .item-time {
+    border-radius: 0 0 0 0.5em;
+}
+
 .schedule-item-details {
     font-size: 10pt
 }
