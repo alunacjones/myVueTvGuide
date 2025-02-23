@@ -76,9 +76,9 @@ const summary = computed(() => props.value.isMorning
 }
 
 .certification {
-    width: 2em;
-    height: 2em;
-    background-size: 2em 2em;
+    width: 2rem;
+    height: 1.5rem;
+    background-size: 1.5rem 1.5rem;
     background-repeat: no-repeat;
     filter: drop-shadow(1px 1px);
 }
