@@ -1,8 +1,9 @@
 import moment from "moment"
 
+const baseUrl = atob("aHR0cHM6Ly9hcGktMi50dmd1aWRlLmNvLnVrLw==")
 export function getDetails(id: string)
 {
-    return fetch(`https://api-2.tvguide.co.uk/single?pa_id=${id}`)
+    return fetch(`${baseUrl}single?pa_id=${id}`)
         .then(r => r.json())
 }
 export async function getListings(date: Date): Promise<any[]>
@@ -19,7 +20,7 @@ export async function getListings(date: Date): Promise<any[]>
         return Promise.resolve(JSON.parse(cached))
     }
     
-    var result = await fetch(`https://api-2.tvguide.co.uk/listings?platform=popular&date=${formattedDate}&hour=6&details=true`)
+    var result = await fetch(`${baseUrl}listings?platform=popular&date=${formattedDate}&hour=6&details=true`)
         .then(r => r.json())
         .then(r => r.filter((_: any, i: number) => i < 10))
         .then(async (r: Array<any>) => {
