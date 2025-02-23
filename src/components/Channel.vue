@@ -31,6 +31,11 @@ const channelName = computed(() => {
 })
 </script>
 <style lang="css" scoped>
+.channel-heading-container {
+    position: sticky;
+    top: 0;
+}
+
 .channel-heading {
     font-weight: 700;
     background-color: red;
