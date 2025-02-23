@@ -5,13 +5,17 @@ export function getDetails(id: string)
     return fetch(`https://api-2.tvguide.co.uk/single?pa_id=${id}`)
         .then(r => r.json())
 }
-export async function getListings(date: Date)
+export async function getListings(date: Date): Promise<any[]>
 {
     const formattedDate = moment(date).format("YYYY-MM-DD");   
     const storageKey =  `listings-${formattedDate}`;
 
-    var cached = null;
+    var cached: string | undefined | null;
     if (cached = window.localStorage.getItem(storageKey)) {
+        // return new Promise((resolve) =>
+        // {
+        //     setTimeout(() => resolve(JSON.parse(cached!)), 2000)
+        // })
         return Promise.resolve(JSON.parse(cached))
     }
     

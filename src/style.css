@@ -77,4 +77,5 @@ input, select {
   border: 1px solid black;
   border-radius: 1em;
   padding: 0 1em;
+  background-color: white;
 }

@@ -62,9 +62,9 @@ onMounted(async () => listings.value = await getListings(new Date()));
     color: white;	
     font-weight: 700;	
     width: 100%;
+    text-shadow: black 2px 2px;
 }
-.top-day {	
-	text-shadow: black 2px 2px;	
+.top-day {		
 	text-transform: uppercase;	
     font-size: 1.5em;  
 }

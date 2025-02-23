@@ -32,6 +32,9 @@ import moment from 'moment';
 import { ref, watchEffect } from 'vue';
 import { useListingsStore } from "../stores/listingsStore"
 import { useNow } from '@vueuse/core';
+import { useLoading } from '../stores/loadingStore';
+
+const { isLoading } = storeToRefs(useLoading());
 
 const { searchString, type, day } = storeToRefs(useQueryStore());
 const listingsStore = useListingsStore();
@@ -56,7 +59,10 @@ const createOption = (days: number) => {
 }
 
 const days = ref([...Array(10).keys()].map(i => createOption(i - 1)))
-watchEffect(async () => await listingsStore.fetchListings(new Date(day.value)))
+watchEffect(async () => { 
+    isLoading.value = true;
+    await listingsStore.fetchListings(new Date(day.value)).finally(() => isLoading.value = false)
+})
 </script>
 <style scoped>
 .header {

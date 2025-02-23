@@ -1,5 +1,5 @@
 <template>
-    <div class="" style="align-self: stretch">
+    <div class="channel" style="align-self: stretch">
         <div class="channel-heading-container">
             <div class="channel-heading">            
                 <p>{{ channelName }}</p>
@@ -57,4 +57,5 @@ const channelName = computed(() =>
   border: 1px solid white;
 }
 
+.channel {page-break-after: always;}
 </style>
