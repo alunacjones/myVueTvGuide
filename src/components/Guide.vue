@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="position: static">
         <div class="day-title">
             <div class="top">
                 <span class="top-date">{{ date }}</span>
@@ -55,8 +55,9 @@ onMounted(async () => listings.value = await getListings(new Date()));
     align-items: center;
     justify-content: center;
 	background-color: purple;
-    padding: 0em 2em;    
-    margin: 0.2em 0;
+    padding: 0em 2em;
+    border-top: 2px solid white;
+    border-bottom: 2px solid white;
     text-align: right;
     padding: 0.3em 0.3em 0.3em 0.3em;
     color: white;	
@@ -80,5 +81,8 @@ onMounted(async () => listings.value = await getListings(new Date()));
     display: flex; 
     flex-direction: row;
     align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 200;
 }
 </style>

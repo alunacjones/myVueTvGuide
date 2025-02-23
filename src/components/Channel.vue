@@ -33,7 +33,7 @@ const channelName = computed(() => {
 <style lang="css" scoped>
 .channel-heading-container {
     position: sticky;
-    top: 0;
+    top: 46px;
     z-index: 100;
 }
 
