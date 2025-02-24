@@ -30,7 +30,7 @@
             </div>
             <div>
                 <label for="hideEmpty">Hide empty channels?</label>
-                <input type="checkbox" name="hideEmpty" v-model="hideEmpty"/>
+                <input type="checkbox" id="hideEmpty" v-model="hideEmpty"/>
             </div>
         </div>
     </div>
@@ -130,6 +130,7 @@ watchEffect(async () => {
 
 .header-items label {
     font-weight: 700;
+    user-select: none;
 }
 
 @media print {
