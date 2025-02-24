@@ -8,7 +8,7 @@ const moveToTop = () => window.scrollTo({ top: 0, behavior: "smooth" })
 </script>
 <style lang="css" scoped>
     .to-top {
-        opacity: 0.5;
+        opacity: 0.3;
         background-color: blue;
         position: fixed;
         bottom: 0.5em;
@@ -19,5 +19,9 @@ const moveToTop = () => window.scrollTo({ top: 0, behavior: "smooth" })
         z-index: 300;
         cursor: pointer;
         user-select: none;
+    }
+
+    .to-top:hover {
+        opacity: 1;
     }
 </style>
