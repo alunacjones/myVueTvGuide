@@ -28,6 +28,10 @@
                     <option v-for="item in genres" :value="item">{{ item }}</option>
                 </select>
             </div>
+            <div>
+                <label for="hideEmpty">Hide empty channels?</label>
+                <input type="checkbox" name="hideEmpty" v-model="hideEmpty"/>
+            </div>
         </div>
     </div>
 
@@ -43,7 +47,7 @@ import { useLoading } from '../stores/loadingStore';
 
 const { isLoading } = storeToRefs(useLoading());
 
-const { searchString, type, day, genre } = storeToRefs(useQueryStore());
+const { searchString, type, day, genre, hideEmpty } = storeToRefs(useQueryStore());
 const listingsStore = useListingsStore();
 const { genres } = storeToRefs(useListingsStore());
 

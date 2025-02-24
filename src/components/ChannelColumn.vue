@@ -1,17 +1,25 @@
 <template>
-    <div class="channel-column">
-        <div style="">
+    <div v-if="shouldShow" class="channel-column">
+        <div>
             <Channel :value="value" />
         </div>
     </div>
 </template>
 <script setup lang="ts">
 import Channel from './Channel.vue';
-defineProps({
+import { useQueryStore } from '../stores/queryStore';
+import { storeToRefs } from 'pinia';
+import { computed } from 'vue';
+
+const { hideEmpty } = storeToRefs(useQueryStore())
+
+const props = defineProps({
     "value": {
         type: Object
     }
 })
+
+const shouldShow = computed(() => !hideEmpty.value || (props.value?.schedules?.length ?? 0) > 0)
 </script>
 <style lang="css" scoped>
 .channel-column {
