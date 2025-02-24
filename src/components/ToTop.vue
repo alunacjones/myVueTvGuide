@@ -1,6 +1,6 @@
 <template>
     <div class="to-top" @click="moveToTop">
-        TOP
+        ↑
     </div>
 </template>
 <script setup lang="ts">
