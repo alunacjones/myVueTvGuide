@@ -42,7 +42,7 @@ import { useQueryStore } from '../stores/queryStore';
 import moment from 'moment';
 import { ref, watchEffect } from 'vue';
 import { useListingsStore } from "../stores/listingsStore"
-import { useNow, useUrlSearchParams } from '@vueuse/core';
+import { useNow } from '@vueuse/core';
 import { useLoading } from '../stores/loadingStore';
 
 const { isLoading } = storeToRefs(useLoading());
@@ -52,14 +52,7 @@ const listingsStore = useListingsStore();
 const { genres } = storeToRefs(useListingsStore());
 
 const today = useNow({ interval: 30000 });
-interface ISearchParams {
-    searchString: string;
-    type: "movie" | "episode" | ""
-}
 
-const { searchString: query, type: searchType } = useUrlSearchParams<ISearchParams>();
-searchString.value = query ? query : searchString.value;
-type.value = searchType ? searchType : type.value;
 const createOption = (days: number) => {
     var date = moment(today.value).add(days, "days");
     var dayOfWeek = date.format("dddd");
@@ -83,7 +76,7 @@ const days = ref([...Array(10).keys()].map(i => createOption(i - 1)));
 
 watchEffect(async () => {
     isLoading.value = true;
-    await listingsStore.fetchListings(new Date(day.value)).finally(() => isLoading.value = false);
+    await listingsStore.fetchListings(new Date(day?.value)).finally(() => isLoading.value = false);
     if (genres.value.indexOf(genre.value) === -1) {
         genre.value = "";
     }

@@ -31,7 +31,7 @@ const day = computed(() => moment(queryOptions.day).format("dddd"))
 const date = computed(() => moment(queryOptions.day).format("Do MMMM"))
 const filteredData = computed(() =>
 {
-    const query = queryOptions.searchString.toLowerCase();
+    const query = queryOptions.searchString?.toLowerCase();
 
     return listings.value.map((l: any) =>
         {
