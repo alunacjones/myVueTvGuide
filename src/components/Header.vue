@@ -21,6 +21,13 @@
                     <option value="episode">Series</option>
                 </select>
             </div>
+            <div>
+                <label>Genre</label>
+                <select v-model="genre">
+                    <option value="">All</option>
+                    <option v-for="item in genres" :value="item">{{ item }}</option>
+                </select>
+            </div>
         </div>
     </div>
 
@@ -36,12 +43,12 @@ import { useLoading } from '../stores/loadingStore';
 
 const { isLoading } = storeToRefs(useLoading());
 
-const { searchString, type, day } = storeToRefs(useQueryStore());
+const { searchString, type, day, genre } = storeToRefs(useQueryStore());
 const listingsStore = useListingsStore();
+const { genres } = storeToRefs(useListingsStore());
 
 const today = useNow({ interval: 30000 });
-interface ISearchParams
-{
+interface ISearchParams {
     searchString: string;
     type: "movie" | "episode" | ""
 }
@@ -55,7 +62,7 @@ const createOption = (days: number) => {
     var mapping: any = {
         "-1": " (Yesterday)",
         "0": " (Today)",
-        "1": " (Tomorrow)" 
+        "1": " (Tomorrow)"
     }
 
     const getExtraInfo = () => {
@@ -70,9 +77,12 @@ const createOption = (days: number) => {
 
 const days = ref([...Array(10).keys()].map(i => createOption(i - 1)));
 
-watchEffect(async () => { 
+watchEffect(async () => {
     isLoading.value = true;
-    await listingsStore.fetchListings(new Date(day.value)).finally(() => isLoading.value = false)
+    await listingsStore.fetchListings(new Date(day.value)).finally(() => isLoading.value = false);
+    if (genres.value.indexOf(genre.value) === -1) {
+        genre.value = "";
+    }
 })
 </script>
 <style scoped>
@@ -81,7 +91,7 @@ watchEffect(async () => {
     position: sticky;
     width: 100%;
     background-color: red;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;    
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     flex-wrap: wrap;
 }
 
@@ -107,7 +117,7 @@ watchEffect(async () => {
     color: white;
 }
 
-.header-items > div {
+.header-items>div {
     display: flex;
     gap: 0.5rem;
     border-left: 1px solid white;
@@ -128,20 +138,23 @@ watchEffect(async () => {
     .header {
         padding-bottom: 0.5em;
     }
+
     .header-items {
         flex-direction: column;
         align-items: center;
         align-content: center;
     }
 
-    .header-items > div {
+    .header-items>div {
         border-left: 0px;
         padding-left: 0em;
-    }   
+    }
+
     .title {
         display: none;
-    } 
+    }
 }
+
 label {
     text-wrap-mode: nowrap;
 }

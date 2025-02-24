@@ -6,7 +6,8 @@ export const useQueryStore = defineStore("query", {
         return { 
             searchString: "",
             type: "",
-            day: moment(new Date()).format("yyyy-MM-DD")
+            day: moment(new Date()).format("yyyy-MM-DD"),
+            genre: ""
         }
     }
 })
