@@ -4,6 +4,7 @@ import Guide from './components/Guide.vue';
 import Loading from 'vue-loading-overlay';
 import { useLoading } from './stores/loadingStore';
 import { storeToRefs } from 'pinia';
+import ToTop from './components/ToTop.vue';
 
 const { isLoading } = storeToRefs(useLoading());
 </script>
@@ -13,6 +14,7 @@ const { isLoading } = storeToRefs(useLoading());
     <Header></Header>
     <Guide></Guide>
     <Loading v-model:active="isLoading" :is-full-page="true" loader="dots"></Loading>
+    <ToTop></ToTop>
   </div>
 </template>
 
