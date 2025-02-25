@@ -1,5 +1,5 @@
 <template>
-    <div class="header">
+    <div ref="target" class="header">
         <div class="header-items">
             <img src="../assets/guide.svg" style="width: 60px; height: 60px" />
             <span class="title">My TV Guide</span>
@@ -40,11 +40,13 @@
 import { storeToRefs } from 'pinia';
 import { useQueryStore } from '../stores/queryStore';
 import moment from 'moment';
-import { ref, watchEffect } from 'vue';
+import { ref, useTemplateRef, watchEffect } from 'vue';
 import { useListingsStore } from "../stores/listingsStore"
-import { useNow } from '@vueuse/core';
+import { useIntersectionObserver, useNow } from '@vueuse/core';
 import { useLoading } from '../stores/loadingStore';
+import { useHeaderStore } from '../stores/headerStore';
 
+const { isVisible } = storeToRefs(useHeaderStore());
 const { isLoading } = storeToRefs(useLoading());
 
 const { searchString, type, day, genre, hideEmpty } = storeToRefs(useQueryStore());
@@ -52,6 +54,8 @@ const listingsStore = useListingsStore();
 const { genres } = storeToRefs(useListingsStore());
 
 const today = useNow({ interval: 30000 });
+const target = useTemplateRef<HTMLDivElement>("target")
+useIntersectionObserver(target, ([entry], _) => isVisible.value = entry.isIntersecting);
 
 const createOption = (days: number) => {
     var date = moment(today.value).add(days, "days");

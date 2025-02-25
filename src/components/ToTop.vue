@@ -1,9 +1,13 @@
 <template>
-    <div class="to-top" @click="moveToTop">
+    <div v-if="!isVisible" class="to-top" @click="moveToTop">
         ↑
     </div>
 </template>
 <script setup lang="ts">
+import { storeToRefs } from 'pinia';
+import { useHeaderStore } from '../stores/headerStore';
+
+const { isVisible } = storeToRefs(useHeaderStore());
 const moveToTop = () => window.scrollTo({ top: 0, behavior: "smooth" })
 </script>
 <style lang="css" scoped>
@@ -19,9 +23,5 @@ const moveToTop = () => window.scrollTo({ top: 0, behavior: "smooth" })
         z-index: 300;
         cursor: pointer;
         user-select: none;
-    }
-
-    .to-top:hover {
-        opacity: 1;
     }
 </style>
