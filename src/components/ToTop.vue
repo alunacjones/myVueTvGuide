@@ -16,7 +16,7 @@ const moveToTop = () => window.scrollTo({ top: 0, behavior: "smooth" })
         background-color: blue;
         position: fixed;
         bottom: 0.5em;
-        right: 0.5em;
+        right: 1em;
         color: white;
         border-radius: 100%;
         padding: 0.5em 1em;
