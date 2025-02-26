@@ -11,7 +11,7 @@
             </div>
             <div>
                 <label>Search</label>
-                <input type="text" v-model="searchString" />
+                <input type="search" v-model="searchString" />
             </div>
             <div>
                 <label>Programme Type</label>
