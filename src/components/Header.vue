@@ -11,7 +11,7 @@
             </div>
             <div>
                 <label>Search</label>
-                <input type="search" v-model="searchString" />
+                <input ref="searchInput" type="search" v-model="searchString" />
             </div>
             <div>
                 <label>Programme Type</label>
@@ -40,21 +40,33 @@
 import { storeToRefs } from 'pinia';
 import { useQueryStore } from '../stores/queryStore';
 import moment from 'moment';
-import { ref, useTemplateRef, watchEffect } from 'vue';
+import { ref, useTemplateRef, watch, watchEffect } from 'vue';
 import { useListingsStore } from "../stores/listingsStore"
 import { useIntersectionObserver, useNow } from '@vueuse/core';
 import { useLoading } from '../stores/loadingStore';
 import { useHeaderStore } from '../stores/headerStore';
+import { useMagicKeys } from '@vueuse/core';
 
 const { isVisible } = storeToRefs(useHeaderStore());
 const { isLoading } = storeToRefs(useLoading());
+const target = useTemplateRef<HTMLDivElement>("target")
+const keys = useMagicKeys({ target: document});
+const ctrlS = keys['Ctrl+/']
+const searchInput = ref();
 
+watch(ctrlS, v => {
+    if (v) {
+        target.value?.scrollIntoView({ behavior: "smooth" });
+        searchInput.value.select();
+        searchInput.value.focus();
+    }
+})
 const { searchString, type, day, genre, hideEmpty } = storeToRefs(useQueryStore());
 const listingsStore = useListingsStore();
 const { genres } = storeToRefs(useListingsStore());
 
 const today = useNow({ interval: 30000 });
-const target = useTemplateRef<HTMLDivElement>("target")
+
 useIntersectionObserver(target, ([entry], _) => isVisible.value = entry.isIntersecting);
 
 const createOption = (days: number) => {
