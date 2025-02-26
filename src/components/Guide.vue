@@ -23,15 +23,17 @@ import ChannelColumn from './ChannelColumn.vue';
 import { useQueryStore } from '../stores/queryStore';
 import { storeToRefs } from 'pinia';
 import { useListingsStore } from '../stores/listingsStore';
+import { refDebounced } from '@vueuse/core';
 
 const queryOptions = useQueryStore();
 const { listings } = storeToRefs(useListingsStore());
 
 const day = computed(() => moment(queryOptions.day).format("dddd"))
 const date = computed(() => moment(queryOptions.day).format("Do MMMM"))
+const debouncedSearch = refDebounced(computed(() => queryOptions.searchString), 500)
 const filteredData = computed(() =>
 {
-    const query = queryOptions.searchString?.toLowerCase();
+    const query = debouncedSearch.value?.toLowerCase();
 
     return listings.value.map((l: any) =>
         {
