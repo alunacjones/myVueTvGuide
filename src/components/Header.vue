@@ -51,10 +51,10 @@ const { isVisible } = storeToRefs(useHeaderStore());
 const { isLoading } = storeToRefs(useLoading());
 const target = useTemplateRef<HTMLDivElement>("target")
 const keys = useMagicKeys({ target: document});
-const ctrlS = keys['Ctrl+/']
+const ctrlSlash = keys['Ctrl+/']
 const searchInput = ref();
 
-watch(ctrlS, v => {
+watch(ctrlSlash, v => {
     if (v) {
         target.value?.scrollIntoView({ behavior: "smooth" });
         searchInput.value.select();

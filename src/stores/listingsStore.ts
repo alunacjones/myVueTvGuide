@@ -27,7 +27,6 @@ export const useListingsStore = defineStore("listings", {
 
             genres.sort();
             this.genres = genres;
-            // console.log(this.listings
         }
     }
 });
