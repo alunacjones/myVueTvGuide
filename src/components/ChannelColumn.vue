@@ -27,9 +27,15 @@ const shouldShow = computed(() => !hideEmpty.value || (props.value?.schedules?.l
     flex: 1;
     min-width: 18%;
 }
-@media screen and (min-width: 100px) and (max-width: 600px) {
+@media screen and (min-width: 100px) and (max-width: 800px) {
     .channel-column {
         min-width: 100%;
+    }
+}
+
+@media screen and (min-width: 801px) and (max-width: 1200px) {
+    .channel-column {
+        min-width: 30%;
     }
 }
 
