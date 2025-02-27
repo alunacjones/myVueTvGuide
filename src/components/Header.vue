@@ -2,7 +2,6 @@
     <div ref="target" class="header">
         <div class="header-items">
             <img src="../assets/guide.svg" style="width: 60px; height: 60px" />
-            <span class="title">My TV Guide</span>
             <div class="search-items">
                 <div>
                     <label>Day</label>
