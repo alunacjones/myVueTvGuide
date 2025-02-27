@@ -55,7 +55,7 @@ function setCachedItem(key: string, value: any[]) {
 
     cachedItems[key] = value;
     var storageLengh = JSON.stringify(cachedItems).length;
-    if (storageLengh > 3_000_000) {
+    if (storageLengh > 4_000_000) {
         console.warn(`Purging data as it is currently using ${storageLengh} bytes`)
         cachedItems = {};
         cachedItems[key] = value;
