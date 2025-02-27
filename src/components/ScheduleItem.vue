@@ -35,7 +35,10 @@ const rating = computed(() => {
 });
 
 const searchImdb = async () => { 
-    window.open(await getImdbUrl(props.value.details.title, props.value.details.meta.year), "_blank");
+    window.open(
+        await getImdbUrl(props.value.details.title, props.value.details.meta.year), 
+        "_blank",
+        "noreferrer");
 }
 const summary = computed(() => props.value.isMorning
     ? props.value.details.summary_short
