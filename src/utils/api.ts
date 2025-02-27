@@ -56,8 +56,9 @@ function setCachedItem(key: string, value: any[]) {
     cachedItems[key] = value;
     var storageLengh = JSON.stringify(cachedItems).length;
     if (storageLengh > 3_000_000) {
-        console.warn(`Purging some data as it is currently using ${storageLengh} bytes`)
-        delete cachedItems[Object.getOwnPropertyNames(cachedItems)[0]]
+        console.warn(`Purging data as it is currently using ${storageLengh} bytes`)
+        cachedItems = {};
+        cachedItems[key] = value;
     }
     
     localStorage.setItem(cachedItemsKey, JSON.stringify(cachedItems));
