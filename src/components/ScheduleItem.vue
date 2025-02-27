@@ -21,6 +21,7 @@
 <script setup lang="ts">
 import moment from 'moment';
 import { computed } from 'vue';
+import { getImdbUrl } from '../utils/api';
 
 const props = defineProps(["value"])
 const formatDate = (date: any, format: string) => moment(date).format(format);
@@ -33,7 +34,9 @@ const rating = computed(() => {
         : ""
 });
 
-const searchImdb = () => window.open(`https://www.imdb.com/find/?q=${encodeURIComponent(props.value.title)}`, "_blank")
+const searchImdb = async () => { 
+    window.open(await getImdbUrl(props.value.details.title, props.value.details.meta.year), "_blank");
+}
 const summary = computed(() => props.value.isMorning
     ? props.value.details.summary_short
     : props.value.details.summary_long)

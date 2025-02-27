@@ -35,7 +35,7 @@ export async function getListings(date: Date): Promise<any[]>
             return r;
         });
 
-    var result2 = await fetch(`https://api-2.tvguide.co.uk/listings?platform=popular&date=${formattedDate}&hour=12&details=true`)
+    var result2 = await fetch(`${baseUrl}listings?platform=popular&date=${formattedDate}&hour=12&details=true`)
         .then(r => r.json())
         .then(r => r.filter((_: any, i: number) => i < 10))
         .then(async (r: Array<any>) => {
@@ -48,7 +48,7 @@ export async function getListings(date: Date): Promise<any[]>
             return r;
         });       
         
-    var result3 = await fetch(`https://api-2.tvguide.co.uk/listings?platform=popular&date=${formattedDate}&hour=18&details=true`)
+    var result3 = await fetch(`${baseUrl}listings?platform=popular&date=${formattedDate}&hour=18&details=true`)
         .then(r => r.json())
         .then(r => r.filter((_: any, i: number) => i < 10))
         .then(async (r: Array<any>) => {
@@ -70,4 +70,16 @@ export async function getListings(date: Date): Promise<any[]>
     localStorage.setItem(storageKey, JSON.stringify(result))
 
     return result;
+}
+
+const key = atob("ZDJmNjgzOQ==");
+
+export async function getImdbUrl(filmName: string, year: number) {
+    const film = await fetch(`http://www.xomdbapi.com/?t=${encodeURIComponent(filmName)}&y=${year}&apikey=${key}`)
+        .then(r => r.json())
+        .catch(() => ({}))
+    
+    return film.imdbID 
+        ? `https://www.imdb.com/title/${film.imdbID}`
+        : `https://www.imdb.com/find/?q=${encodeURIComponent(filmName)}`;
 }
