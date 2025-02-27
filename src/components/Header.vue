@@ -3,34 +3,51 @@
         <div class="header-items">
             <img src="../assets/guide.svg" style="width: 60px; height: 60px" />
             <span class="title">My TV Guide</span>
-            <div>
-                <label>Day</label>
-                <select v-model="day">
-                    <option v-for="item in days" :value="item.value">{{ item.label }}</option>
-                </select>
-            </div>
-            <div>
-                <label>Search</label>
-                <input ref="searchInput" type="search" v-model="searchString" />
-            </div>
-            <div>
-                <label>Programme Type</label>
-                <select v-model="type">
-                    <option value="">All</option>
-                    <option value="movie">Films</option>
-                    <option value="episode">Series</option>
-                </select>
-            </div>
-            <div>
-                <label>Genre</label>
-                <select v-model="genre">
-                    <option value="">All</option>
-                    <option v-for="item in genres" :value="item">{{ item }}</option>
-                </select>
-            </div>
-            <div>
-                <label for="hideEmpty">Hide empty channels?</label>
-                <input type="checkbox" id="hideEmpty" v-model="hideEmpty"/>
+            <div class="search-items">
+                <div>
+                    <label>Day</label>
+                    <select v-model="day">
+                        <option v-for="item in days" :value="item.value">{{ item.label }}</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Platform</label>
+                    <select v-model="platform">
+                        <option value="popular">Popular</option>
+                        <option value="freeview">Freeview</option>
+                        <option value="virgin">Virgin</option>
+                    </select>                    
+                </div>
+                <div v-if="platform !== 'popular'">
+                    <label>Region</label>
+                    <select v-model="region">
+                        <option value="yorkshire">Yorkshire</option>
+                        <option value="north-west">North West</option>
+                    </select>                    
+                </div>                
+                <div>
+                    <label>Search</label>
+                    <input ref="searchInput" type="search" v-model="searchString" />
+                </div>
+                <div>
+                    <label>Programme Type</label>
+                    <select v-model="type">
+                        <option value="">All</option>
+                        <option value="movie">Films</option>
+                        <option value="episode">Series</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Genre</label>
+                    <select v-model="genre">
+                        <option value="">All</option>
+                        <option v-for="item in genres" :value="item">{{ item }}</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="hideEmpty">Hide empty channels?</label>
+                    <input type="checkbox" id="hideEmpty" v-model="hideEmpty" />
+                </div>
             </div>
         </div>
     </div>
@@ -50,7 +67,7 @@ import { useMagicKeys } from '@vueuse/core';
 const { isVisible } = storeToRefs(useHeaderStore());
 const { isLoading } = storeToRefs(useLoading());
 const target = useTemplateRef<HTMLDivElement>("target")
-const keys = useMagicKeys({ target: document});
+const keys = useMagicKeys({ target: document });
 const ctrlSlash = keys['Ctrl+/']
 const searchInput = ref();
 
@@ -61,7 +78,7 @@ watch(ctrlSlash, v => {
         searchInput.value.focus();
     }
 })
-const { searchString, type, day, genre, hideEmpty } = storeToRefs(useQueryStore());
+const { searchString, type, day, genre, hideEmpty, platform, region } = storeToRefs(useQueryStore());
 const listingsStore = useListingsStore();
 const { genres } = storeToRefs(useListingsStore());
 
@@ -92,7 +109,7 @@ const days = ref([...Array(10).keys()].map(i => createOption(i - 1)));
 
 watchEffect(async () => {
     isLoading.value = true;
-    await listingsStore.fetchListings(new Date(day?.value)).finally(() => isLoading.value = false);
+    await listingsStore.fetchListings(new Date(day?.value), platform.value, region.value).finally(() => isLoading.value = false);
     if (genres.value.indexOf(genre.value) === -1) {
         genre.value = "";
     }
@@ -133,7 +150,6 @@ watchEffect(async () => {
 .header-items>div {
     display: flex;
     gap: 0.5rem;
-    border-left: 1px solid white;
     padding-left: 1em;
 }
 
@@ -153,8 +169,8 @@ watchEffect(async () => {
         padding-bottom: 0.5em;
     }
 
-    .header-items {
-        flex-direction: column;
+    .header-items .search-items {
+        flex-direction: row;
         align-items: center;
         align-content: center;
     }
@@ -171,5 +187,14 @@ watchEffect(async () => {
 
 label {
     text-wrap-mode: nowrap;
+    padding-right: 1em;
+    padding-left: 1em;
+    border-left: 1px solid white;
+}
+
+.search-items {
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 0.5em;
 }
 </style>

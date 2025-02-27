@@ -10,12 +10,16 @@ interface ISearchParams
     type: string
     day: string,
     hideEmpty: Ref<boolean>
+    platform: Ref<string>
+    region: Ref<string>
 }
 
 export const useQueryStore = defineStore("query", {
     state() {
         return useUrlSearchParams<ISearchParams>("history", {
             initialValue: {
+                platform: useStorage("platform", "popular"),
+                region: useStorage("region", "yorkshire"),
                 searchString: "",
                 genre: "",
                 type: "",

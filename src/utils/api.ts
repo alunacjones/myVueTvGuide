@@ -5,12 +5,12 @@ export function getDetails(id: string) {
   return fetch(`${baseUrl}single?pa_id=${id}`).then((r) => r.json());
 }
 
-async function getListingsForDateAndTime(formattedDate: string, hour: number) {
+async function getListingsForDateAndTime(formattedDate: string, hour: number, platform: string, region: string) {
   return await fetch(
-    `${baseUrl}listings?platform=popular&date=${formattedDate}&hour=${hour}&details=true`
-  )
+        `${baseUrl}listings?platform=${platform}&region=${region}&date=${formattedDate}&hour=${hour}&details=true`
+    )
     .then((r) => r.json())
-    .then((r) => r.filter((_: any, i: number) => i < 10))
+    .then((r) => r.filter((_: any, i: number) => i < 20))
     .then(async (r: Array<any>) => {
       var promises = r
         .flatMap((r) => r.schedules)
@@ -43,9 +43,11 @@ function combineListings(toCombine: any[][]) {
     return result;
 }
 
-export async function getListings(date: Date): Promise<any[]> {
+export async function getListings(date: Date, platform: string, region: string): Promise<any[]> {
+  if (!platform) return [];
   const formattedDate = moment(date).format("YYYY-MM-DD");
-  const storageKey = `listings-${formattedDate}`;
+  if (platform === "popular") region = "";
+  const storageKey = `listings-${formattedDate}-${platform}-${region}`;
 
   var cached: string | undefined | null;
   if ((cached = window.localStorage.getItem(storageKey))) {
@@ -53,10 +55,10 @@ export async function getListings(date: Date): Promise<any[]> {
   }
 
   var result = combineListings([
-        await getListingsForDateAndTime(formattedDate, 6),
-        await getListingsForDateAndTime(formattedDate, 12), 
-        await getListingsForDateAndTime(formattedDate, 18),
-        await getListingsForDateAndTime(formattedDate, 24)
+        await getListingsForDateAndTime(formattedDate, 6, platform, region),
+        await getListingsForDateAndTime(formattedDate, 12, platform, region), 
+        await getListingsForDateAndTime(formattedDate, 18, platform, region),
+        await getListingsForDateAndTime(formattedDate, 24, platform, region)
     ]);
 
   localStorage.setItem(storageKey, JSON.stringify(result));

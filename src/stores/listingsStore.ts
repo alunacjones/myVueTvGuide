@@ -9,8 +9,8 @@ export const useListingsStore = defineStore("listings", {
         }
     },
     actions: {
-        async fetchListings(date: Date) {
-            this.listings = await getListings(date);
+        async fetchListings(date: Date, platform: string, region: string) {
+            this.listings = await getListings(date, platform, region);
             (<any>window).listings = this.listings;
             var genres = this.listings.flatMap(s => s.schedules)
                 .reduce((agg, i) =>
