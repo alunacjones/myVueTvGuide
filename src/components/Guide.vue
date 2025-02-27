@@ -16,8 +16,7 @@
     </div>
 </template>
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
-import { getListings } from '../utils/api';
+import { computed } from 'vue';
 import moment from 'moment';
 import ChannelColumn from './ChannelColumn.vue';
 import { useQueryStore } from '../stores/queryStore';
@@ -50,8 +49,6 @@ const filteredData = computed(() =>
         }
     )
 })
-
-onMounted(async () => listings.value = await getListings(new Date()));
 </script>
 <style lang="css" scoped>
 .top {

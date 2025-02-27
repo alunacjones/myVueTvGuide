@@ -168,13 +168,25 @@ watchEffect(async () => {
     .header {
         padding-bottom: 0.5em;
     }
-
+    
+    .header-items {
+        flex-direction: column;
+    }
     .header-items .search-items {
+        display: flex;
         flex-direction: row;
         align-items: center;
         align-content: center;
+        flex-grow: 1;
     }
 
+    .search-items > * {
+        flex-basis: 30%;
+        display: flex;
+        justify-content: space-between;
+        margin-right: 0.5em;
+        flex-grow: 1;
+    }
     .header-items>div {
         border-left: 0px;
         padding-left: 0em;
@@ -189,7 +201,6 @@ label {
     text-wrap-mode: nowrap;
     padding-right: 1em;
     padding-left: 1em;
-    border-left: 1px solid white;
 }
 
 .search-items {

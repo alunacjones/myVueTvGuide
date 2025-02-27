@@ -79,4 +79,6 @@ input[type=search], select {
   padding: 0 1em;
   background-color: white;
   height: 2em;
+  flex-grow: 1;
+
 }
