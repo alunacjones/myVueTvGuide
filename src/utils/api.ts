@@ -43,15 +43,35 @@ function combineListings(toCombine: any[][]) {
     return result;
 }
 
+const cachedItemsKey = "cachedListings";
+const getAllCachedItems = () => JSON.parse(localStorage.getItem(cachedItemsKey) ?? "{}");
+
+function getCachedItem(key: string): any[] | null {
+    return getAllCachedItems()[key];
+} 
+
+function setCachedItem(key: string, value: any[]) {
+    var cachedItems = getAllCachedItems();
+
+    cachedItems[key] = value;
+    var storageLengh = JSON.stringify(cachedItems).length;
+    if (storageLengh > 3_000_000) {
+        console.warn(`Purging some data as it is currently using ${storageLengh} bytes`)
+        delete cachedItems[Object.getOwnPropertyNames(cachedItems)[0]]
+    }
+    
+    localStorage.setItem(cachedItemsKey, JSON.stringify(cachedItems));
+}
+
 export async function getListings(date: Date, platform: string, region: string): Promise<any[]> {
   if (!platform) return [];
   const formattedDate = moment(date).format("YYYY-MM-DD");
   if (platform === "popular") region = "";
   const storageKey = `listings-${formattedDate}-${platform}-${region}`;
 
-  var cached: string | undefined | null;
-  if ((cached = window.localStorage.getItem(storageKey))) {
-    return Promise.resolve(JSON.parse(cached));
+  var cached: any[] | null;
+  if ((cached = getCachedItem(storageKey))) {
+    return Promise.resolve(cached);
   }
 
   var result = combineListings([
@@ -61,7 +81,7 @@ export async function getListings(date: Date, platform: string, region: string):
         await getListingsForDateAndTime(formattedDate, 24, platform, region)
     ]);
 
-  localStorage.setItem(storageKey, JSON.stringify(result));
+  setCachedItem(storageKey, result)
 
   return result;
 }

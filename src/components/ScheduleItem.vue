@@ -15,6 +15,7 @@
                 value.duration }} mins)
             </p>
             <p>{{ summary }}</p>
+            <p>{{  value.start_at }}</p>
         </div>
     </div>
 </template>
