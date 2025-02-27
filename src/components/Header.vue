@@ -148,7 +148,7 @@ watchEffect(async () => {
     }
 }
 
-@media screen and (min-width: 100px) and (max-width: 1024px) {
+@media screen and (min-width: 100px) and (max-width: 1650px) {
     .header {
         padding-bottom: 0.5em;
     }
