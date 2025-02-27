@@ -25,7 +25,7 @@ const shouldShow = computed(() => !hideEmpty.value || (props.value?.schedules?.l
 .channel-column {
     gap: 0.5em;
     flex: 1;
-    min-width: 18%;
+    min-width: 20%;
 }
 @media screen and (min-width: 100px) and (max-width: 800px) {
     .channel-column {
