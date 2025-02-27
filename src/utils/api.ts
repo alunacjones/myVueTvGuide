@@ -75,7 +75,7 @@ export async function getListings(date: Date): Promise<any[]>
 const key = atob("ZDJmNjgzOQ==");
 
 export async function getImdbUrl(filmName: string, year: number) {
-    const film = await fetch(`http://www.omdbapi.com/?t=${encodeURIComponent(filmName)}&y=${year}&apikey=${key}`)
+    const film = await fetch(`https://www.omdbapi.com/?t=${encodeURIComponent(filmName)}&y=${year}&apikey=${key}`)
         .then(r => r.json())
         .catch(() => ({}))
     
