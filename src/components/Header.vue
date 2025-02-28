@@ -44,8 +44,10 @@
                     </select>
                 </div>
                 <div>
-                    <label for="hideEmpty">Hide empty channels?</label>
-                    <input type="checkbox" id="hideEmpty" v-model="hideEmpty" />
+                    <div>
+                        <label for="hideEmpty">Hide empty channels?</label>
+                        <input type="checkbox" id="hideEmpty" v-model="hideEmpty" />
+                    </div>
                 </div>
             </div>
         </div>
