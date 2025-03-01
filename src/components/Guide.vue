@@ -12,7 +12,7 @@
                     <ChannelColumn v-for="channel in filteredData" :value="channel" />
                 </div>
             </div>
-        </div>        
+        </div>
     </div>
 </template>
 <script setup lang="ts">
@@ -30,15 +30,13 @@ const { listings } = storeToRefs(useListingsStore());
 const day = computed(() => moment(queryOptions.day).format("dddd"))
 const date = computed(() => moment(queryOptions.day).format("Do MMMM"))
 const debouncedSearch = refDebounced(computed(() => queryOptions.searchString), 500)
-const filteredData = computed(() =>
-{
+const filteredData = computed(() => {
     const query = debouncedSearch.value?.toLowerCase();
 
-    return listings.value.map((l: any) =>
-    {
+    return listings.value.map((l: any) => {
         return {
             ...l,
-            schedules: l.schedules.filter((s: any) => 
+            schedules: l.schedules.filter((s: any) =>
                 (!query || (query && s.details.title.toLowerCase().indexOf(query) > -1))
                 &&
                 (!queryOptions.type || (queryOptions.type && s.type === queryOptions.type))
@@ -56,20 +54,21 @@ const filteredData = computed(() =>
     display: flex;
     align-items: center;
     justify-content: center;
-	background-color: purple;
+    background-color: purple;
     padding: 0em 2em;
     border-top: 2px solid white;
     border-bottom: 2px solid white;
     text-align: right;
     padding: 0.3em 0.3em 0.3em 0.3em;
-    color: white;	
-    font-weight: 700;	
+    color: white;
+    font-weight: 700;
     width: 100%;
     text-shadow: black 2px 2px;
 }
-.top-day {		
-	text-transform: uppercase;	
-    font-size: 1.5em;  
+
+.top-day {
+    text-transform: uppercase;
+    font-size: 1.5em;
 }
 
 .top-date {
@@ -80,7 +79,7 @@ const filteredData = computed(() =>
 }
 
 .day-title {
-    display: flex; 
+    display: flex;
     flex-direction: row;
     align-items: center;
     position: sticky;

@@ -15,15 +15,15 @@
                         <option value="popular">Popular</option>
                         <option value="freeview">Freeview</option>
                         <option value="virgin">Virgin</option>
-                    </select>                    
+                    </select>
                 </div>
                 <div v-if="platform !== 'popular'">
                     <label>Region</label>
                     <select v-model="region">
                         <option value="yorkshire">Yorkshire</option>
                         <option value="north-west">North West</option>
-                    </select>                    
-                </div>                
+                    </select>
+                </div>
                 <div>
                     <label>Search</label>
                     <input ref="searchInput" type="search" v-model="searchString" />
@@ -49,13 +49,13 @@
                         <option value="">All</option>
                         <option v-for="item in allCategories" :value="item">{{ item }}</option>
                     </select>
-                </div>                
+                </div>
                 <div>
                     <div>
                         <label for="hideEmpty">Hide empty channels?</label>
                         <input type="checkbox" id="hideEmpty" v-model="hideEmpty" />
                     </div>
-                </div>        
+                </div>
             </div>
         </div>
     </div>
@@ -124,44 +124,45 @@ watchEffect(async () => {
     }
 })
 </script>
-<style scoped>
+<style scoped lang="scss">
 .header {
     width: 100%;
     background-color: red;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     flex-wrap: wrap;
-}
 
-.header-items>span {
-    color: white;
-    font-size: 2rem;
-    font-weight: 700;
-    vertical-align: middle;
-    align-content: center;
-}
+    .header-items {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 0;
+        color: white;
 
-.header-items>img {
-    margin: 0.5em 1em;
-    background-color: white;
-    border-radius: var(--border-radius);
-}
+        &>span {
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+            vertical-align: middle;
+            align-content: center;
 
-.header-items {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0;
-    color: white;
-}
+        }
 
-.header-items>div {
-    display: flex;
-    gap: 0rem;
-}
+        &>img {
+            margin: 0.5em 1em;
+            background-color: white;
+            border-radius: var(--border-radius);
+        }
 
-.header-items label {
-    font-weight: 700;
-    user-select: none;
+        &>div {
+            display: flex;
+            gap: 0rem;
+        }
+
+        & label {
+            font-weight: 700;
+            user-select: none;
+        }
+    }
 }
 
 @media print {
@@ -173,35 +174,33 @@ watchEffect(async () => {
 @media screen and (min-width: 100px) and (max-width: 1650px) {
     .header {
         padding-bottom: 0.5em;
-    }
-    
-    .header-items {
-        flex-direction: column;
-    }
-    .header-items .search-items {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        align-content: center;
-        flex-grow: 1;
-        width: 100%;
-        gap: 0.5em;
-    }
 
-    .search-items > * {
-        flex-basis: 30%;
-        display: flex;
-        justify-content: space-between;
-        margin-right: 0.5em;
-        flex-grow: 1;
-    }
-    .header-items>div {
-        border-left: 0px;
-        padding-left: 0em;
-    }
+        .header-items {
+            flex-direction: column;
 
-    .title {
-        display: none;
+            &>div {
+                border-left: 0px;
+                padding-left: 0em;
+            }
+
+            .search-items {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                align-content: center;
+                flex-grow: 1;
+                width: 100%;
+                gap: 0.5em;
+
+                &>* {
+                    flex-basis: 30%;
+                    display: flex;
+                    justify-content: space-between;
+                    margin-right: 0.5em;
+                    flex-grow: 1;
+                }
+            }
+        }
     }
 }
 

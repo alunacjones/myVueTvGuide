@@ -30,37 +30,37 @@ const channelName = computed(() => {
     return maps[(props.value.title as string)] ?? props.value.title
 })
 </script>
-<style lang="css" scoped>
+<style lang="scss" scoped>
 .channel-heading-container {
     position: sticky;
     top: 46px;
     z-index: 100;
-}
 
-.channel-heading {
-    font-weight: 700;
-    background-color: red;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: white;
-    border-radius: var(--border-radius) var(--border-radius) 0px 0px;
-    text-transform: uppercase;
-    font-size: 1em;
-    border-bottom: white 1px solid;
-}
+    .channel-heading {
+        font-weight: 700;
+        background-color: red;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: white;
+        border-radius: var(--border-radius) var(--border-radius) 0px 0px;
+        text-transform: uppercase;
+        font-size: 1em;
+        border-bottom: white 1px solid;
 
-.channel-heading>* {
-    padding: 0px 0em;
-    margin: 4pt;
-}
+        &>* {
+            padding: 0px 0em;
+            margin: 4pt;
+        }
 
-.channel-heading>p {
-    align-self: flex-start;
-}
+        &>p {
+            align-self: flex-start;
+        }
 
-.channel-heading>img {
-    border: 1px solid white;
+        &>img {
+            border: 1px solid white;
+        }
+    }
 }
 
 .channel {

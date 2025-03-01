@@ -24,7 +24,8 @@
                 {{ value.details.genre }}
             </p>
             <p v-if="value.expanded" class="categories">
-                <span class="badge" v-for="item in itemCategories" @click="filterCategory($event, item)">{{ item }}</span>
+                <span class="badge" v-for="item in itemCategories" @click="filterCategory($event, item)">{{ item
+                    }}</span>
             </p>
         </div>
     </div>
@@ -40,8 +41,9 @@ const { category } = storeToRefs(useQueryStore());
 const props = defineProps(["value"])
 const formatDate = (date: any, format: string) => moment(date).format(format);
 const isAMovie = computed(() => props.value.type === "movie");
-
-const isNew = computed(() => props.value?.details?.meta?.attributes.indexOf("new") > -1);
+const meta = computed(() => props.value?.details?.meta ?? {});
+const attributes = computed(() => meta.value.attributes ?? [])
+const isNew = computed(() => attributes.value.includes("new"));
 
 const rating = computed(() => {
     const rating = Math.round((props.value?.details?.meta?.rating ?? 0) / 2);
@@ -107,14 +109,6 @@ const summary = computed(() => !isMorning.value || props.value?.expanded
 
 .item-title {
     font-weight: 700;
-
-    &.subtitles::after {
-        content: "ST"
-    }
-
-    &.new::after {
-        content: "NEW"
-    }
 }
 
 .film-image {
