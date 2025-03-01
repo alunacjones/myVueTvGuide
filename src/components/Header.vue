@@ -44,18 +44,18 @@
                     </select>
                 </div>
                 <div>
-                    <div>
-                        <label for="hideEmpty">Hide empty channels?</label>
-                        <input type="checkbox" id="hideEmpty" v-model="hideEmpty" />
-                    </div>
-                </div>
-                <div>
                     <label>Categories</label>
                     <select v-model="category" style="max-width: 15em;">
                         <option value="">All</option>
                         <option v-for="item in allCategories" :value="item">{{ item }}</option>
                     </select>
                 </div>                
+                <div>
+                    <div>
+                        <label for="hideEmpty">Hide empty channels?</label>
+                        <input type="checkbox" id="hideEmpty" v-model="hideEmpty" />
+                    </div>
+                </div>        
             </div>
         </div>
     </div>
@@ -126,8 +126,6 @@ watchEffect(async () => {
 </script>
 <style scoped>
 .header {
-    /*position: fixed;*/
-    position: sticky;
     width: 100%;
     background-color: red;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -152,14 +150,13 @@ watchEffect(async () => {
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 1em;
+    gap: 0;
     color: white;
 }
 
 .header-items>div {
     display: flex;
-    gap: 0.5rem;
-    padding-left: 1em;
+    gap: 0rem;
 }
 
 .header-items label {
@@ -188,6 +185,7 @@ watchEffect(async () => {
         align-content: center;
         flex-grow: 1;
         width: 100%;
+        gap: 0.5em;
     }
 
     .search-items > * {
