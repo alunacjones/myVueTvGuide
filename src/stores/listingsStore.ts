@@ -63,7 +63,8 @@ const mappings = [
     { "match": "film4", "url": "https://www.channel4.com/now/f4" },
     { "match": "more4", "url": "https://www.channel4.com/now/m4" },
     { "match": "e4", "url": "https://www.channel4.com/now/e4" },
-
+    { "match": "u-and-dave", "url": "https://u.co.uk/tv-guide/dave" },
+    { "match": "u-and-drama", "url": "https://u.co.uk/tv-guide/drama" }
 ]
 .map(i => {
     var regex = new RegExp(i.match);

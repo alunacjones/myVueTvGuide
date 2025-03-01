@@ -1,5 +1,5 @@
 <template>
-    <div style="display: flex;" :class="['schedule-item-details', isAMovie ? 'movie' : '']"
+    <div v-if="!liveOnly || (liveOnly && isCurrentlyOn)" style="display: flex;" :class="['schedule-item-details', isAMovie ? 'movie' : '']"
         @click="value.expanded = !value.expanded">
         <div class="item-time">
             <div>{{ formatDate(value.start_at, 'H.mm') }}</div>
@@ -41,7 +41,7 @@ import { useNow } from '@vueuse/core';
 import Toastify from "toastify-js"
 
 const channelUrl= inject<string>("channelUrl")
-const { category } = storeToRefs(useQueryStore());
+const { category, liveOnly } = storeToRefs(useQueryStore());
 const now = useNow({ interval: 30000 });
 const props = defineProps(["value"])
 const formatDate = (date: any, format: string) => moment(date).format(format);

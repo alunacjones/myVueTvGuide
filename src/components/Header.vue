@@ -56,6 +56,12 @@
                         <input type="checkbox" id="hideEmpty" v-model="hideEmpty" />
                     </div>
                 </div>
+                <div>
+                    <div>
+                        <label for="onNow">On Now?</label>
+                        <input type="checkbox" id="onNow" v-model="liveOnly" />
+                    </div>
+                </div>                
             </div>
         </div>
     </div>
@@ -87,7 +93,7 @@ watch(ctrlSlash, v => {
         searchInput.value.focus();
     }
 })
-const { searchString, type, day, genre, hideEmpty, platform, region, category } = storeToRefs(useQueryStore());
+const { searchString, type, day, genre, hideEmpty, platform, region, category, liveOnly } = storeToRefs(useQueryStore());
 const listingsStore = useListingsStore();
 const { genres, categories: allCategories } = storeToRefs(useListingsStore());
 
