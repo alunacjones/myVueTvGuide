@@ -35,9 +35,43 @@ export const useListingsStore = defineStore("listings", {
 
             genres.sort();
             categories.sort();
+            
+            this.listings.forEach(l =>
+            {
+                l.channelUrl = mapChannelSlugToUrl(l.slug);
+            })
 
             this.genres = genres;
             this.categories = categories;
         }
     }
 });
+
+const mappings = [
+    { "match": "bbc-one", "url": "https://www.bbc.co.uk/iplayer/live/bbcone" },
+    { "match": "bbc-two", "url": "https://www.bbc.co.uk/iplayer/live/bbctwo" },
+    { "match": "bbc-three", "url": "https://www.bbc.co.uk/iplayer/live/bbcthree" },
+    { "match": "bbc-four", "url": "https://www.bbc.co.uk/iplayer/live/bbcfour" },
+    { "match": "itv1", "url": "https://www.itv.com/watch?channel=itv" },
+    { "match": "itv2", "url": "https://www.itv.com/watch?channel=itv2" },
+    { "match": "itv3", "url": "https://www.itv.com/watch?channel=itv3" },
+    { "match": "itv4", "url": "https://www.itv.com/watch?channel=itv4" },
+    { "match": "itvbe", "url": "https://www.itv.com/watch?channel=itvbe" },
+    { "match": "channel-4", "url": "https://www.channel4.com/now/C4" },
+    { "match": "channel-5", "url": "https://www.channel5.com/channels/channel-5" },    
+    { "match": "5usa", "url": "https://www.channel5.com/channels/5usa" },
+    { "match": "film4", "url": "https://www.channel4.com/now/f4" },
+    { "match": "more4", "url": "https://www.channel4.com/now/m4" },
+    { "match": "e4", "url": "https://www.channel4.com/now/e4" },
+
+]
+.map(i => {
+    var regex = new RegExp(i.match);
+
+    return { 
+        matcher: (slug: string) => !!regex.exec(slug),
+        url: i.url
+    };
+});
+
+const mapChannelSlugToUrl = (slug: string) => mappings.find(m => m.matcher(slug))?.url;

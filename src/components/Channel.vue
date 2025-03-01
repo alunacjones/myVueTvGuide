@@ -3,7 +3,7 @@
         <div class="channel-heading-container">
             <div class="channel-heading">
                 <p>{{ channelName }}</p>
-                <img :src="value.logo_url.replace('https:', 'http:')" style="height: 30px" />
+                <a target="_blank" :href="value.channelUrl"><img :src="value.logo_url.replace('https:', 'http:')" style="height: 30px" /></a>
             </div>
         </div>
         <div class="channel-schedules">
