@@ -14,9 +14,10 @@
 </template>
 <script setup lang="ts">
 import ScheduleItem from './ScheduleItem.vue';
-import { computed } from 'vue';
+import { computed, provide } from 'vue';
 
 const props = defineProps(["value"])
+provide("channelUrl", props.value.channelUrl)
 const maps: any = {
     "BBC One London": "BBC1",
     "BBC Two HD": "BBC2",

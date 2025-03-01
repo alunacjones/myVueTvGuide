@@ -88,3 +88,7 @@ input[type=search], select {
   flex-grow: 1;
 
 }
+
+.toast-container {
+  z-index: 500;
+}

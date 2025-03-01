@@ -12,7 +12,8 @@ interface ISearchParams
     hideEmpty: Ref<boolean>
     platform: Ref<string>
     region: Ref<string>,
-    category: string
+    category: string,
+    liveOnly: boolean
 }
 
 export const useQueryStore = defineStore("query", {
@@ -26,7 +27,8 @@ export const useQueryStore = defineStore("query", {
                 type: "",
                 hideEmpty: useStorage<boolean>("hideEmpty", false),
                 day: moment(new Date()).format("yyyy-MM-DD"),
-                category: ""
+                category: "",
+                liveOnly: false
             }            
         });
     },
