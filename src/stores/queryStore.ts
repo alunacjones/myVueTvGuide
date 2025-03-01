@@ -1,7 +1,7 @@
 import { useStorage, useUrlSearchParams } from "@vueuse/core";
 import moment from "moment";
 import { defineStore } from "pinia";
-import type { Ref } from "vue";
+import { ref, type Ref } from "vue";
 
 interface ISearchParams
 {
@@ -11,7 +11,8 @@ interface ISearchParams
     day: string,
     hideEmpty: Ref<boolean>
     platform: Ref<string>
-    region: Ref<string>
+    region: Ref<string>,
+    category: string
 }
 
 export const useQueryStore = defineStore("query", {
@@ -24,7 +25,8 @@ export const useQueryStore = defineStore("query", {
                 genre: "",
                 type: "",
                 hideEmpty: useStorage<boolean>("hideEmpty", false),
-                day: moment(new Date()).format("yyyy-MM-DD")
+                day: moment(new Date()).format("yyyy-MM-DD"),
+                category: ""
             }            
         });
     },

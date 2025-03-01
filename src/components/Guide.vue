@@ -35,19 +35,20 @@ const filteredData = computed(() =>
     const query = debouncedSearch.value?.toLowerCase();
 
     return listings.value.map((l: any) =>
-        {
-            return {
-                ...l,
-                schedules: l.schedules.filter((s: any) => 
-                    (!query || (query && s.details.title.toLowerCase().indexOf(query) > -1))
-                    &&
-                    (!queryOptions.type || (queryOptions.type && s.type === queryOptions.type))
-                    &&
-                    (!queryOptions.genre || (queryOptions.genre && s.details.genre === queryOptions.genre))
-                )
-            }
+    {
+        return {
+            ...l,
+            schedules: l.schedules.filter((s: any) => 
+                (!query || (query && s.details.title.toLowerCase().indexOf(query) > -1))
+                &&
+                (!queryOptions.type || (queryOptions.type && s.type === queryOptions.type))
+                &&
+                (!queryOptions.genre || (queryOptions.genre && s.details.genre === queryOptions.genre))
+                &&
+                (!queryOptions.category || (queryOptions.category && (s.details.meta?.categories?.includes(queryOptions.category) ?? false)))
+            )
         }
-    )
+    })
 })
 </script>
 <style lang="css" scoped>

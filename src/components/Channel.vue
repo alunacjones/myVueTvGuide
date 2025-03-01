@@ -46,7 +46,7 @@ const channelName = computed(() => {
     color: white;
     border-radius: var(--border-radius) var(--border-radius) 0px 0px;
     text-transform: uppercase;
-    font-size: 12pt;
+    font-size: 1em;
     border-bottom: white 1px solid;
 }
 

@@ -20,8 +20,11 @@
                 value.duration }} mins)
             </p>
             <p>{{ summary }}</p>
+            <p class="genre">
+                {{  value.details.genre }}
+            </p>
             <p v-if="value.expanded" class="categories">
-                <span class="badge" v-for="item in categories">{{ item }}</span>
+                <span class="badge" v-for="item in itemCategories" @click="filterCategory($event, item)">{{ item }}</span>
             </p>
         </div>
     </div>
@@ -30,7 +33,10 @@
 import moment from 'moment';
 import { computed } from 'vue';
 import { getImdbUrl } from '../utils/api';
+import { useQueryStore } from '../stores/queryStore';
+import { storeToRefs } from 'pinia';
 
+const { category } = storeToRefs(useQueryStore());
 const props = defineProps(["value"])
 const formatDate = (date: any, format: string) => moment(date).format(format);
 const isAMovie = computed(() => props.value.type === "movie");
@@ -45,7 +51,12 @@ const rating = computed(() => {
         : ""
 });
 
-const categories = computed(() => props.value?.details?.meta?.categories);
+const filterCategory = (event: Event, item: string) => {
+    event.stopPropagation();
+    category.value = item;
+}
+
+const itemCategories = computed(() => props.value?.details?.meta?.categories);
 
 const episode = computed(() => {
     const meta = props.value?.details.meta;
@@ -58,7 +69,9 @@ const episode = computed(() => {
         : ""
 });
 
-const searchImdb = async () => {
+const searchImdb = async (e: Event) => {
+    e.stopPropagation();
+
     window.open(
         await getImdbUrl(props.value.details.title, props.value.details.meta.year),
         "_blank",
@@ -81,7 +94,6 @@ const summary = computed(() => !isMorning.value || props.value?.expanded
 
     &>p {
         margin: 0;
-        font-size: 8pt;
         display: flex;
         gap: 1em;
     }
@@ -94,7 +106,6 @@ const summary = computed(() => !isMorning.value || props.value?.expanded
 }
 
 .item-title {
-    font-size: 8pt;
     font-weight: 700;
 
     &.subtitles::after {
@@ -118,7 +129,6 @@ const summary = computed(() => !isMorning.value || props.value?.expanded
     border-right: 3px white solid;
     text-align: right;
     font-weight: 700;
-    font-size: 8pt;
 }
 
 @mixin highlight-item {
@@ -132,11 +142,12 @@ const summary = computed(() => !isMorning.value || props.value?.expanded
 }
 
 .schedule-item-details {
-    font-size: 10pt;
     border: 0px;
     border-left: var(--film-left-border-width) solid var(--time-background-colour);
     cursor: pointer;
     user-select: none;
+    font-size: 0.8em;
+    line-height: 1.2em;
 
     &:hover,
     &.selected {
@@ -146,10 +157,6 @@ const summary = computed(() => !isMorning.value || props.value?.expanded
     &:last-child {
         border-bottom-left-radius: var(--border-radius);
         border-bottom-right-radius: var(--border-radius);
-
-        .item-time {
-            border-radius: 0 0 0 var(--border-radius);
-        }
     }
 }
 
@@ -209,12 +216,18 @@ const summary = computed(() => !isMorning.value || props.value?.expanded
     background-color: grey;
     color: white;
     font-weight: 700;
-    padding: 0 0.3em;
-    height: 1.5em;
+    padding: 0.2em 0.3em;
+    height: fit-content;
     border-radius: 0.5em;
 }
 
 .new {
     background-color: red;
+}
+
+.genre {
+    font-style: italic;
+    font-weight: 600;
+    color: gray;
 }
 </style>

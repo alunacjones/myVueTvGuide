@@ -49,6 +49,13 @@
                         <input type="checkbox" id="hideEmpty" v-model="hideEmpty" />
                     </div>
                 </div>
+                <div>
+                    <label>Categories</label>
+                    <select v-model="category" style="max-width: 15em;">
+                        <option value="">All</option>
+                        <option v-for="item in allCategories" :value="item">{{ item }}</option>
+                    </select>
+                </div>                
             </div>
         </div>
     </div>
@@ -66,7 +73,8 @@ import { useHeaderStore } from '../stores/headerStore';
 import { useMagicKeys } from '@vueuse/core';
 
 const { isVisible } = storeToRefs(useHeaderStore());
-const { isLoading } = storeToRefs(useLoading());
+const { isLoading } = storeToRefs(useLoading())
+
 const target = useTemplateRef<HTMLDivElement>("target")
 const keys = useMagicKeys({ target: document });
 const ctrlSlash = keys['Ctrl+/']
@@ -79,9 +87,9 @@ watch(ctrlSlash, v => {
         searchInput.value.focus();
     }
 })
-const { searchString, type, day, genre, hideEmpty, platform, region } = storeToRefs(useQueryStore());
+const { searchString, type, day, genre, hideEmpty, platform, region, category } = storeToRefs(useQueryStore());
 const listingsStore = useListingsStore();
-const { genres } = storeToRefs(useListingsStore());
+const { genres, categories: allCategories } = storeToRefs(useListingsStore());
 
 const today = useNow({ interval: 30000 });
 
@@ -179,6 +187,7 @@ watchEffect(async () => {
         align-items: center;
         align-content: center;
         flex-grow: 1;
+        width: 100%;
     }
 
     .search-items > * {
