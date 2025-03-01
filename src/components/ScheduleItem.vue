@@ -7,6 +7,7 @@
                 &nbsp;
             </div>
             <div v-if="isNew" class="badge new">NEW</div>
+            <div v-if="isCurrentlyOn" class="badge live">LIVE</div>
         </div>
         <div class="item-details">
             <p>
@@ -36,15 +37,24 @@ import { computed } from 'vue';
 import { getImdbUrl } from '../utils/api';
 import { useQueryStore } from '../stores/queryStore';
 import { storeToRefs } from 'pinia';
+import { useNow } from '@vueuse/core';
 
 const { category } = storeToRefs(useQueryStore());
+const now = useNow({ interval: 30000 });
 const props = defineProps(["value"])
 const formatDate = (date: any, format: string) => moment(date).format(format);
 const isAMovie = computed(() => props.value.type === "movie");
 const meta = computed(() => props.value?.details?.meta ?? {});
 const attributes = computed(() => meta.value.attributes ?? [])
 const isNew = computed(() => attributes.value.includes("new"));
-
+const start = computed(() => moment(props.value?.start_at));
+const end = computed(() => moment(start.value).add(props.value?.duration, "minutes"))
+const isCurrentlyOn = computed(() => {    
+    if (props.value?.pa_id === "8ea9c4ca-9933-582b-b053-0843086474ab") {
+        console.log(start.value, end.value, now.value, moment)
+    }
+    return moment(now.value).isBetween(start.value, end.value);
+})
 const rating = computed(() => {
     const rating = Math.round((props.value?.details?.meta?.rating ?? 0) / 2);
 
@@ -223,5 +233,27 @@ const summary = computed(() => !isMorning.value || props.value?.expanded
     font-style: italic;
     font-weight: 600;
     color: gray;
+}
+
+@keyframes liveAnimation {
+    0% {
+        color: transparent;  
+    }
+    50% {
+        color: #ffdd00d0;
+    }
+    100% {
+        color: transparent;
+    }    
+}
+.live  {
+    background-color: green;
+}
+
+.live::before {
+    content: '●';
+    font-size: 1.5em;
+    line-height: 0.5em;
+    animation: liveAnimation 1s infinite ease-in-out;
 }
 </style>
