@@ -1,7 +1,7 @@
 import { useStorage, useUrlSearchParams } from "@vueuse/core";
 import moment from "moment";
 import { defineStore } from "pinia";
-import { ref, type Ref } from "vue";
+import { type Ref } from "vue";
 
 interface ISearchParams
 {
