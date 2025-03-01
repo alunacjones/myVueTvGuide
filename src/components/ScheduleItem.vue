@@ -2,8 +2,7 @@
     <div style="display: flex;" :class="['schedule-item-details', isAMovie ? 'movie' : '']">
         <div class="item-time" style="">
             <div>{{ formatDate(value.start_at, 'H.mm') }}</div>
-            <div v-if="isAMovie" class="film-image"
-                title="Click to search IMDB" @click="searchImdb">
+            <div v-if="isAMovie" class="film-image" title="Click to search IMDB" @click="searchImdb">
                 &nbsp;
             </div>
         </div>
@@ -37,9 +36,9 @@ const rating = computed(() => {
         : ""
 });
 
-const searchImdb = async () => { 
+const searchImdb = async () => {
     window.open(
-        await getImdbUrl(props.value.details.title, props.value.details.meta.year), 
+        await getImdbUrl(props.value.details.title, props.value.details.meta.year),
         "_blank",
         "noreferrer");
 }
@@ -48,19 +47,16 @@ const summary = computed(() => props.value.isMorning
     : props.value.details.summary_long)
 
 </script>
-<style scoped>
-.movie {
-    box-shadow: 1ps solid black inset;
-}
-
+<style scoped lang="scss">
 .item-details {
     width: 100%;
-}
-.item-details>p {
-    margin: 0;
-    font-size: 8pt;
-    display: flex;
-    gap: 1em;
+
+    &>p {
+        margin: 0;
+        font-size: 8pt;
+        display: flex;
+        gap: 1em;
+    }
 }
 
 .item-title {
@@ -76,23 +72,41 @@ const summary = computed(() => props.value.isMorning
 
 .item-time {
     min-width: 3.5em;
-    background-color: #F0cEcA;
+    background-color: var(--time-background-colour);
     border-right: 3px white solid;
     text-align: right;
     font-weight: 700;
     font-size: 8pt;
 }
 
-.movie .item-time > * {
-    border-left: 3px solid black;
-}
-
-.schedule-item-details:last-child .item-time {
-    border-radius: 0 0 0 0.5em;
-}
-
 .schedule-item-details {
-    font-size: 10pt
+    font-size: 10pt;
+    border: 0px;
+    border-left: var(--film-left-border-width) solid var(--time-background-colour);
+
+    &:last-child {
+        border-bottom-left-radius: 10px;
+
+        .item-time {
+            border-radius: 0 0 0 0.5em;
+        }
+    }
+}
+
+.movie {
+    border-style: solid;
+    border-width: 1px;
+    border-left-width: var(--film-left-border-width);
+    border-left-color: black;
+    
+    & > * {
+        padding-top: 2px;
+        padding-bottom: 2px;
+    }
+
+    &+.movie {
+        margin-top: 1px;
+    }
 }
 
 .certification {
@@ -101,29 +115,29 @@ const summary = computed(() => props.value.isMorning
     background-size: 1.5rem 1.5rem;
     background-repeat: no-repeat;
     filter: drop-shadow(1px 1px);
-}
 
-.certification-15 {
-    background-image: url(../assets/certifications/15.svg);
-}
+    &.certification-15 {
+        background-image: url(../assets/certifications/15.svg);
+    }
 
-.certification-12 {
-    background-image: url(../assets/certifications/12.svg);
-}
+    &.certification-12 {
+        background-image: url(../assets/certifications/12.svg);
+    }
 
-.certification-12A {
-    background-image: url(../assets/certifications/12A.svg);
-}
+    &.certification-12A {
+        background-image: url(../assets/certifications/12A.svg);
+    }
 
-.certification-PG {
-    background-image: url(../assets/certifications/PG.svg);
-}
+    &.certification-PG {
+        background-image: url(../assets/certifications/PG.svg);
+    }
 
-.certification-U {
-    background-image: url(../assets/certifications/U.svg);
-}
+    &.certification-U {
+        background-image: url(../assets/certifications/U.svg);
+    }
 
-.certification-18 {
-    background-image: url(../assets/certifications/18.svg);
+    &.certification-18 {
+        background-image: url(../assets/certifications/18.svg);
+    }
 }
 </style>

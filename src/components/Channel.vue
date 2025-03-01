@@ -68,7 +68,7 @@ const channelName = computed(() => {
 }
 
 .channel-schedules {
-    background: linear-gradient(#dfdf8e 0%, lightyellow 95%, white 100%);
+    background: var(--channel-background);
     border-radius: 0px 0px 0.5rem 0.5rem;
     padding-right: 3px;
 }

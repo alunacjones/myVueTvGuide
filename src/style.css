@@ -11,6 +11,10 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --time-background-colour: #F0cEcA;
+  --film-left-border-width: 5px;
+  --channel-background: linear-gradient(#dfdf8e 0%, lightyellow 95%, white 100%);
 }
 
 a {
