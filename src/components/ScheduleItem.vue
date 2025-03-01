@@ -6,11 +6,11 @@
             <div v-if="isAMovie" class="film-image" title="Click to search IMDB" @click="searchImdb">
                 &nbsp;
             </div>
+            <div v-if="isNew" class="badge new">NEW</div>
         </div>
         <div class="item-details">
             <p>
                 <a :id="value.pa_id" class="anchor"><span :class="['item-title']">{{ value.title }}</span></a>
-                <span v-if="isNew" class="badge new">NEW</span>
                 <span v-if="isAMovie">{{ rating }}</span>
                 <span v-if="isAMovie"
                     :class="['certification', 'certification-' + value.details.meta.certification]">&nbsp;</span>
@@ -21,7 +21,7 @@
             </p>
             <p>{{ summary }}</p>
             <p class="genre">
-                {{  value.details.genre }}
+                {{ value.details.genre }}
             </p>
             <p v-if="value.expanded" class="categories">
                 <span class="badge" v-for="item in itemCategories" @click="filterCategory($event, item)">{{ item }}</span>
