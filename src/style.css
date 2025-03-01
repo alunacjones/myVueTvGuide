@@ -13,8 +13,10 @@
   -moz-osx-font-smoothing: grayscale;
 
   --time-background-colour: #F0cEcA;
+  --darker-time-background-color: #e6aea8;
   --film-left-border-width: 5px;
   --channel-background: linear-gradient(#dfdf8e 0%, lightyellow 95%, white 100%);
+  --border-radius: 0.5em;
 }
 
 a {
@@ -37,7 +39,7 @@ h1 {
 }
 
 button {
-  border-radius: 8px;
+  border-radius: var(--border-radius);
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
   font-size: 1em;
@@ -79,7 +81,7 @@ button:focus-visible {
 
 input[type=search], select {
   border: 1px solid black;
-  border-radius: 1em;
+  border-radius: var(--border-radius);
   padding: 0 1em;
   background-color: white;
   height: 2em;

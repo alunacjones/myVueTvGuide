@@ -137,7 +137,7 @@ watchEffect(async () => {
 .header-items>img {
     margin: 0.5em 1em;
     background-color: white;
-    border-radius: 10%;
+    border-radius: var(--border-radius);
 }
 
 .header-items {

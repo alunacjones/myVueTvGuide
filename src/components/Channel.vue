@@ -44,7 +44,7 @@ const channelName = computed(() => {
     align-items: center;
     justify-content: space-between;
     color: white;
-    border-radius: 5px 5px 0px 0px;
+    border-radius: var(--border-radius) var(--border-radius) 0px 0px;
     text-transform: uppercase;
     font-size: 12pt;
     border-bottom: white 1px solid;
@@ -69,7 +69,7 @@ const channelName = computed(() => {
 
 .channel-schedules {
     background: var(--channel-background);
-    border-radius: 0px 0px 0.5rem 0.5rem;
+    border-radius: 0px 0px var(--border-radius) var(--border-radius);
     padding-right: 3px;
 }
 </style>

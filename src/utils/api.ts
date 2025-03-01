@@ -17,7 +17,6 @@ async function getListingsForDateAndTime(formattedDate: string, hour: number, pl
         .map((i) =>
           getDetails(i.pa_id).then((r) => {
             i.details = r;
-            i.isMorning = true;
           })
         );
 
