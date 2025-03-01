@@ -53,6 +53,9 @@ const summary = computed(() => props.value.isMorning
     box-shadow: 1ps solid black inset;
 }
 
+.item-details {
+    width: 100%;
+}
 .item-details>p {
     margin: 0;
     font-size: 8pt;
@@ -84,9 +87,6 @@ const summary = computed(() => props.value.isMorning
     border-left: 3px solid black;
 }
 
-.movie .item-time > div:last-child {
-    margin-bottom: 1px;
-}
 .schedule-item-details:last-child .item-time {
     border-radius: 0 0 0 0.5em;
 }
