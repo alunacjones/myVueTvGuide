@@ -1,8 +1,11 @@
 <template>
     <div style="display: flex;" :class="['schedule-item-details', isAMovie ? 'movie' : '']">
-        <div class="item-time" style="">{{ formatDate(value.start_at, 'H.mm') }}<div v-if="isAMovie" class="film-image"
+        <div class="item-time" style="">
+            <div>{{ formatDate(value.start_at, 'H.mm') }}</div>
+            <div v-if="isAMovie" class="film-image"
                 title="Click to search IMDB" @click="searchImdb">
-                &nbsp;</div>
+                &nbsp;
+            </div>
         </div>
         <div class="item-details">
             <p>
@@ -77,6 +80,13 @@ const summary = computed(() => props.value.isMorning
     font-size: 8pt;
 }
 
+.movie .item-time > * {
+    border-left: 3px solid black;
+}
+
+.movie .item-time > div:last-child {
+    margin-bottom: 1px;
+}
 .schedule-item-details:last-child .item-time {
     border-radius: 0 0 0 0.5em;
 }
