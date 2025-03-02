@@ -1,5 +1,5 @@
 <template>
-    <div ref="target" class="header">
+    <div ref="header" class="header">
         <div class="header-items">
             <img src="../assets/guide.svg" style="width: 60px; height: 60px" />
             <div class="search-items">
@@ -82,16 +82,16 @@ import { useMyNow } from '../composables/appNow';
 const { isVisible } = storeToRefs(useHeaderStore());
 const { isLoading } = storeToRefs(useLoading())
 
-const target = useTemplateRef<HTMLDivElement>("target")
+const header = useTemplateRef<HTMLDivElement>("header")
 const keys = useMagicKeys({ target: document });
 const ctrlSlash = keys['Ctrl+/']
-const searchInput = ref();
+const searchInput = useTemplateRef<HTMLInputElement>("searchInput");
 
 watch(ctrlSlash, v => {
     if (v) {
-        target.value?.scrollIntoView({ behavior: "smooth" });
-        searchInput.value.select();
-        searchInput.value.focus();
+        header.value?.scrollIntoView({ behavior: "smooth" });
+        searchInput.value?.select();
+        searchInput.value?.focus();
     }
 })
 const { searchString, type, day, genre, hideEmpty, platform, region, category, liveOnly } = storeToRefs(useQueryStore());
@@ -100,7 +100,7 @@ const { genres, categories: allCategories } = storeToRefs(useListingsStore());
 
 const today = useMyNow();
 
-useIntersectionObserver(target, ([entry], _) => isVisible.value = entry.isIntersecting);
+useIntersectionObserver(header, ([entry], _) => isVisible.value = entry.isIntersecting);
 
 const createOption = (days: number) => {
     var date = moment(today.value).add(days, "days");
