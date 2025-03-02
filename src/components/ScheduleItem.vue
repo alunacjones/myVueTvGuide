@@ -2,6 +2,7 @@
     <div style="display: flex;"
         :class="['schedule-item-details', isAMovie ? 'movie' : '']"
         @click="value ? value.expanded = !value?.expanded : void (0)">
+        {{ now }}, {{ isCurrentlyOn }} {{  start }}, END: {{  end }}
         <div class="item-time">
             <div>{{ formatDate(value?.start_at, 'H.mm') }}</div>
             <div v-if="isAMovie" class="film-image" title="Click to search IMDB" @click="searchImdb">
@@ -52,10 +53,10 @@ const meta = computed(() => props.value?.details?.meta);
 const attributes = computed(() => meta.value?.attributes ?? [])
 const isNew = computed(() => attributes.value.includes("new"));
 const start = computed(() => moment(props.value?.start_at));
-const end = computed(() => moment(props.value?.end_at))
+const end = computed(() => moment(props.value?.end_at));
 const isCurrentlyOn = computed(() => moment(now.value).isBetween(start.value, end.value));
 const rating = computed(() => {
-    const rating = Math.round((props.value?.details?.meta?.rating ?? 0) / 2);
+    const rating = Math.round((meta.value?.rating ?? 0) / 2);
 
     return rating
         ? "★".repeat(rating) + "☆".repeat(5 - rating)
@@ -115,7 +116,7 @@ const isMorning = computed(() => {
 
 const summary = computed(() => !isMorning.value || props.value?.expanded
     ? props.value?.details.summary_long
-    : props.value?.details.summary_short)
+    : props.value?.details.summary_short);
 
 </script>
 <style scoped lang="scss">
