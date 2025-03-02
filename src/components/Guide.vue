@@ -23,6 +23,8 @@ import { useQueryStore } from '../stores/queryStore';
 import { storeToRefs } from 'pinia';
 import { useListingsStore } from '../stores/listingsStore';
 import { refDebounced } from '@vueuse/core';
+import type { IListing, ISchedule } from '../types';
+import { useMyNow } from '../composables/appNow';
 
 const queryOptions = useQueryStore();
 const { listings } = storeToRefs(useListingsStore());
@@ -30,13 +32,15 @@ const { listings } = storeToRefs(useListingsStore());
 const day = computed(() => moment(queryOptions.day).format("dddd"))
 const date = computed(() => moment(queryOptions.day).format("Do MMMM"))
 const debouncedSearch = refDebounced(computed(() => queryOptions.searchString), 500)
+const now = useMyNow();
+
 const filteredData = computed(() => {
     const query = debouncedSearch.value?.toLowerCase();
 
-    return listings.value.map((l: any) => {
+    return listings.value.map((l: IListing) => {        
         return {
             ...l,
-            schedules: l.schedules.filter((s: any) =>
+            schedules: l.schedules.filter((s: ISchedule) =>
                 (!query || (query && s.details.title.toLowerCase().indexOf(query) > -1))
                 &&
                 (!queryOptions.type || (queryOptions.type && s.type === queryOptions.type))
@@ -44,6 +48,8 @@ const filteredData = computed(() => {
                 (!queryOptions.genre || (queryOptions.genre && s.details.genre === queryOptions.genre))
                 &&
                 (!queryOptions.category || (queryOptions.category && (s.details.meta?.categories?.includes(queryOptions.category) ?? false)))
+                &&
+                (!queryOptions.liveOnly || (queryOptions.liveOnly && moment(now.value).isBetween(moment(s.start_at), moment(s.end_at))))
             )
         }
     })

@@ -73,10 +73,11 @@ import { useQueryStore } from '../stores/queryStore';
 import moment from 'moment';
 import { ref, useTemplateRef, watch, watchEffect } from 'vue';
 import { useListingsStore } from "../stores/listingsStore"
-import { useIntersectionObserver, useNow } from '@vueuse/core';
+import { useIntersectionObserver } from '@vueuse/core';
 import { useLoading } from '../stores/loadingStore';
 import { useHeaderStore } from '../stores/headerStore';
 import { useMagicKeys } from '@vueuse/core';
+import { useMyNow } from '../composables/appNow';
 
 const { isVisible } = storeToRefs(useHeaderStore());
 const { isLoading } = storeToRefs(useLoading())
@@ -97,7 +98,7 @@ const { searchString, type, day, genre, hideEmpty, platform, region, category, l
 const listingsStore = useListingsStore();
 const { genres, categories: allCategories } = storeToRefs(useListingsStore());
 
-const today = useNow({ interval: 30000 });
+const today = useMyNow();
 
 useIntersectionObserver(target, ([entry], _) => isVisible.value = entry.isIntersecting);
 
@@ -199,7 +200,7 @@ watchEffect(async () => {
                 gap: 0.5em;
 
                 &>* {
-                    flex-basis: 30%;
+                    flex-basis: 100%;
                     display: flex;
                     justify-content: space-between;
                     margin-right: 0.5em;

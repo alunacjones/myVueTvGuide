@@ -1,8 +1,9 @@
 <template>
-    <div v-if="!liveOnly || (liveOnly && isCurrentlyOn)" style="display: flex;" :class="['schedule-item-details', isAMovie ? 'movie' : '']"
-        @click="value.expanded = !value.expanded">
+    <div style="display: flex;"
+        :class="['schedule-item-details', isAMovie ? 'movie' : '']"
+        @click="value ? value.expanded = !value?.expanded : void (0)">
         <div class="item-time">
-            <div>{{ formatDate(value.start_at, 'H.mm') }}</div>
+            <div>{{ formatDate(value?.start_at, 'H.mm') }}</div>
             <div v-if="isAMovie" class="film-image" title="Click to search IMDB" @click="searchImdb">
                 &nbsp;
             </div>
@@ -11,46 +12,47 @@
         </div>
         <div class="item-details">
             <p>
-                <a :id="value.pa_id" class="anchor"><span :class="['item-title']">{{ value.title }}</span></a>
+                <a :id="value?.pa_id" class="anchor"><span :class="['item-title']">{{ value?.title }}</span></a>
                 <span v-if="isAMovie">{{ rating }}</span>
-                <span v-if="isAMovie"
-                    :class="['certification', 'certification-' + value.details.meta.certification]">&nbsp;</span>
+                <span v-if="isAMovie" :class="['certification', 'certification-' + meta?.certification]">&nbsp;</span>
                 <span v-if="!isAMovie">{{ episode }}</span>
             </p>
-            <p v-if="isAMovie">{{ value.details.meta.year }} ({{
-                value.duration }} mins)
+            <p v-if="isAMovie">
+                {{ value?.details.meta.year }}
             </p>
             <p>{{ summary }}</p>
             <p class="genre">
-                {{ value.details.genre }}
+                {{ genreInfo }}
             </p>
-            <p v-if="value.expanded" class="categories">
-                <span class="badge" v-for="item in itemCategories" @click="filterCategory($event, item)">{{ item
-                    }}</span>
+            <p v-if="value?.expanded" class="categories">
+                <span class="badge" v-for="item in itemCategories" @click="filterCategory($event, item)">
+                    {{ item }}
+                </span>
             </p>
         </div>
     </div>
 </template>
 <script setup lang="ts">
 import moment from 'moment';
-import { computed, inject } from 'vue';
+import { computed, inject, type PropType } from 'vue';
 import { getImdbUrl } from '../utils/api';
 import { useQueryStore } from '../stores/queryStore';
 import { storeToRefs } from 'pinia';
-import { useNow } from '@vueuse/core';
 import Toastify from "toastify-js"
+import type { ISchedule } from '../types';
+import { useMyNow } from '../composables/appNow';
 
-const channelUrl= inject<string>("channelUrl")
-const { category, liveOnly } = storeToRefs(useQueryStore());
-const now = useNow({ interval: 30000 });
-const props = defineProps(["value"])
+const channelUrl = inject<string>("channelUrl")
+const { category } = storeToRefs(useQueryStore());
+const now = useMyNow();
+const props = defineProps({ "value": { type: Object as PropType<ISchedule> } })
 const formatDate = (date: any, format: string) => moment(date).format(format);
-const isAMovie = computed(() => props.value.type === "movie");
-const meta = computed(() => props.value?.details?.meta ?? {});
-const attributes = computed(() => meta.value.attributes ?? [])
+const isAMovie = computed(() => props.value?.type === "movie");
+const meta = computed(() => props.value?.details?.meta);
+const attributes = computed(() => meta.value?.attributes ?? [])
 const isNew = computed(() => attributes.value.includes("new"));
 const start = computed(() => moment(props.value?.start_at));
-const end = computed(() => moment(start.value).add(props.value?.duration, "minutes"))
+const end = computed(() => moment(props.value?.end_at))
 const isCurrentlyOn = computed(() => moment(now.value).isBetween(start.value, end.value));
 const rating = computed(() => {
     const rating = Math.round((props.value?.details?.meta?.rating ?? 0) / 2);
@@ -60,7 +62,12 @@ const rating = computed(() => {
         : ""
 });
 
-const gotoChannel = (e: Event) => { 
+const genreInfo = computed(() => {
+    const duration = props.value?.duration ? ` (${props.value?.duration} mins)` : "";
+    return `${props.value?.details?.genre}${duration}`;
+});
+
+const gotoChannel = (e: Event) => {
     e.stopPropagation();
 
     if (channelUrl) {
@@ -83,9 +90,9 @@ const itemCategories = computed(() => props.value?.details?.meta?.categories);
 
 const episode = computed(() => {
     const meta = props.value?.details.meta;
-    const title = meta.episode_title ? ` (${meta.episode_title})` : "";
-    const season = meta.season ? `S${meta.season}` : "";
-    const episode = meta.episode ? ` E${meta.episode}` : "";
+    const title = meta?.episode_title ? ` (${meta.episode_title})` : "";
+    const season = meta?.season ? `S${meta.season}` : "";
+    const episode = meta?.episode ? ` E${meta.episode}` : "";
 
     return season && episode
         ? `${season}${episode}${title}`
@@ -96,7 +103,7 @@ const searchImdb = async (e: Event) => {
     e.stopPropagation();
 
     window.open(
-        await getImdbUrl(props.value.details.title, props.value.details.meta.year),
+        await getImdbUrl(props.value?.details.title ?? "", props.value?.details.meta.year ?? 0),
         "_blank",
         "noreferrer");
 }
@@ -107,8 +114,8 @@ const isMorning = computed(() => {
 });
 
 const summary = computed(() => !isMorning.value || props.value?.expanded
-    ? props.value.details.summary_long
-    : props.value.details.summary_short)
+    ? props.value?.details.summary_long
+    : props.value?.details.summary_short)
 
 </script>
 <style scoped lang="scss">
@@ -144,6 +151,10 @@ const summary = computed(() => !isMorning.value || props.value?.expanded
     border-right: 3px white solid;
     text-align: right;
     font-weight: 700;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2em;
+    padding-left: 1px;
 }
 
 @mixin highlight-item {
@@ -248,16 +259,19 @@ const summary = computed(() => !isMorning.value || props.value?.expanded
 
 @keyframes liveAnimation {
     0% {
-        color: transparent;  
+        color: transparent;
     }
+
     50% {
         color: #ffdd00d0;
     }
+
     100% {
         color: transparent;
-    }    
+    }
 }
-.live  {
+
+.live {
     background-color: green;
 }
 

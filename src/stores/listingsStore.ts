@@ -1,10 +1,11 @@
 import { defineStore } from "pinia";
 import { getListings } from "../utils/api";
+import { type IListing } from "../types";
 
 export const useListingsStore = defineStore("listings", {
     state() {
         return {
-            listings: [] as any[],
+            listings: [] as IListing[],
             genres: [] as string[],
             categories: [] as string[]
         }
@@ -16,7 +17,6 @@ export const useListingsStore = defineStore("listings", {
             var { genres, categories } = this.listings.flatMap(s => s.schedules)
                 .reduce((agg, i) =>
                 {
-    
                     if (agg.genres.indexOf(i.details.genre) === -1)
                     {
                         agg.genres.push(i.details.genre);                        
@@ -31,7 +31,7 @@ export const useListingsStore = defineStore("listings", {
 
                     return agg;
                 },
-                { genres: [], categories: [] });
+                { genres: [] as string[], categories: [] as string[] });
 
             genres.sort();
             categories.sort();
