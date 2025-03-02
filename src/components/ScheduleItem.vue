@@ -2,7 +2,7 @@
     <div style="display: flex;"
         :class="['schedule-item-details', isAMovie ? 'movie' : '']"
         @click="value ? value.expanded = !value?.expanded : void (0)">
-        {{ now }}, {{ isCurrentlyOn }} {{  start }}, END: {{  end }}
+        <!-- {{ now }}, {{ isCurrentlyOn }} {{  start }}, END: {{  end }} -->
         <div class="item-time">
             <div>{{ formatDate(value?.start_at, 'H.mm') }}</div>
             <div v-if="isAMovie" class="film-image" title="Click to search IMDB" @click="searchImdb">
