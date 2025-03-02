@@ -7,4 +7,6 @@ export interface IListing {
   channelUrl: string | undefined;
   slug: string;
   duration: number;
+  title: string;
+  logo_url: string
 }

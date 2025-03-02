@@ -46,7 +46,7 @@ import { useMyNow } from '../composables/appNow';
 const channelUrl = inject<string>("channelUrl")
 const { category } = storeToRefs(useQueryStore());
 const now = useMyNow();
-const props = defineProps({ "value": { type: Object as PropType<ISchedule> } })
+const props = defineProps({ "value": { type: Object as PropType<ISchedule>, required: true } })
 const formatDate = (date: any, format: string) => moment(date).format(format);
 const isAMovie = computed(() => props.value?.type === "movie");
 const meta = computed(() => props.value?.details?.meta);

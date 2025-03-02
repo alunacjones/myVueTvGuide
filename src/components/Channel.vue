@@ -3,7 +3,7 @@
         <div class="channel-heading-container">
             <div class="channel-heading">
                 <p>{{ channelName }}</p>
-                <a target="_blank" :href="value.channelUrl"><img :src="value.logo_url.replace('https:', 'http:')" style="height: 30px" /></a>
+                <a target="_blank" :href="value.channelUrl"><img :src="value.logo_url.replace('https:', 'https:')" style="height: 30px" /></a>
             </div>
         </div>
         <div class="channel-schedules">
@@ -13,10 +13,11 @@
 
 </template>
 <script setup lang="ts">
+import type { IListing } from '../types';
 import ScheduleItem from './ScheduleItem.vue';
-import { computed, provide } from 'vue';
+import { computed, provide, type PropType } from 'vue';
 
-const props = defineProps(["value"])
+const props = defineProps({ "value": { type: Object as PropType<IListing>, required: true}})
 provide("channelUrl", props.value.channelUrl)
 const maps: any = {
     "BBC One London": "BBC1",

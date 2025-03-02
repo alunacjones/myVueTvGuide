@@ -6,9 +6,9 @@
                 <span class="top-day">{{ day }}</span>
             </div>
         </div>
-        <div style="display: flex; flex-direction: column; width: 100%">
-            <div style="display:flex">
-                <div style="display: flex; flex-direction: row; flex-wrap: wrap; gap: 0.5em; width: 100%">
+        <div class="channel-column-container">
+            <div>
+                <div style="">
                     <ChannelColumn v-for="channel in filteredData" :value="channel" />
                 </div>
             </div>
@@ -55,7 +55,7 @@ const filteredData = computed(() => {
     })
 })
 </script>
-<style lang="css" scoped>
+<style lang="scss" scoped>
 .top {
     display: flex;
     align-items: center;
@@ -91,5 +91,23 @@ const filteredData = computed(() => {
     position: sticky;
     top: 0;
     z-index: 200;
+}
+
+.channel-column-container {
+    display: flex; 
+    flex-direction: column; 
+    width: 100%;
+
+    &>div {
+        display: flex;
+
+        &>div {
+            display: flex; 
+            flex-direction: row; 
+            flex-wrap: wrap; 
+            gap: 0.5em; 
+            width: 100%            
+        }
+    }
 }
 </style>
