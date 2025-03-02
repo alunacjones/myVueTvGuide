@@ -64,10 +64,11 @@ const mappings = [
     { "match": "more4", "url": "https://www.channel4.com/now/m4" },
     { "match": "e4", "url": "https://www.channel4.com/now/e4" },
     { "match": "u-and-dave", "url": "https://u.co.uk/tv-guide/dave" },
-    { "match": "u-and-drama", "url": "https://u.co.uk/tv-guide/drama" }
+    { "match": "u-and-drama", "url": "https://u.co.uk/tv-guide/drama" },
+    { "match": "quest", "url": "https://www.discoveryplus.com/gb/channel/quest?pc=268" },    
 ]
 .map(i => {
-    var regex = new RegExp(i.match);
+    var regex = new RegExp(`^${i.match}`);
 
     return { 
         matcher: (slug: string) => !!regex.exec(slug),
