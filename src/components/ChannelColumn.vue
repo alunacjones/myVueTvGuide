@@ -9,17 +9,13 @@
 import Channel from './Channel.vue';
 import { useQueryStore } from '../stores/queryStore';
 import { storeToRefs } from 'pinia';
-import { computed, type PropType } from 'vue';
+import { computed } from 'vue';
 import type { IListing } from '../types';
+import type { IValue } from '../types/IValue';
 
 const { hideEmpty } = storeToRefs(useQueryStore())
 
-const props = defineProps({
-    "value": {
-        type: Object as PropType<IListing>,
-        required: true
-    }
-})
+const props = defineProps<IValue<IListing>>()
 
 const shouldShow = computed(() => !hideEmpty.value || (props.value?.schedules?.length ?? 0) > 0)
 </script>

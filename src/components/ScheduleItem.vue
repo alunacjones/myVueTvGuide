@@ -35,18 +35,19 @@
 </template>
 <script setup lang="ts">
 import moment from 'moment';
-import { computed, inject, type PropType } from 'vue';
+import { computed, inject } from 'vue';
 import { getImdbUrl } from '../utils/api';
 import { useQueryStore } from '../stores/queryStore';
 import { storeToRefs } from 'pinia';
 import Toastify from "toastify-js"
 import type { ISchedule } from '../types';
 import { useMyNow } from '../composables/appNow';
+import type { IValue } from '../types/IValue';
 
 const channelUrl = inject<string>("channelUrl")
 const { category } = storeToRefs(useQueryStore());
 const now = useMyNow();
-const props = defineProps({ "value": { type: Object as PropType<ISchedule>, required: true } })
+const props = defineProps<IValue<ISchedule>>()
 const formatDate = (date: any, format: string) => moment(date).format(format);
 const isAMovie = computed(() => props.value?.type === "movie");
 const meta = computed(() => props.value?.details?.meta);

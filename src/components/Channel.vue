@@ -14,10 +14,11 @@
 </template>
 <script setup lang="ts">
 import type { IListing } from '../types';
+import type { IValue } from '../types/IValue';
 import ScheduleItem from './ScheduleItem.vue';
-import { computed, provide, type PropType } from 'vue';
+import { computed, provide } from 'vue';
 
-const props = defineProps({ "value": { type: Object as PropType<IListing>, required: true}})
+const props = defineProps<IValue<IListing>>()
 provide("channelUrl", props.value.channelUrl)
 const maps: any = {
     "BBC One London": "BBC1",
