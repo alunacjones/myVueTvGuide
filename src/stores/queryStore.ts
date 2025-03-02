@@ -2,6 +2,7 @@ import { useStorage, useUrlSearchParams } from "@vueuse/core";
 import moment from "moment";
 import { defineStore } from "pinia";
 import { type Ref } from "vue";
+import { type Region, type Platform } from "../utils/api";
 
 interface ISearchParams
 {
@@ -10,8 +11,8 @@ interface ISearchParams
     type: string
     day: string,
     hideEmpty: Ref<boolean>
-    platform: Ref<string>
-    region: Ref<string>,
+    platform: Ref<Platform>
+    region: Ref<Region>,
     category: string,
     liveOnly: boolean
 }
@@ -20,8 +21,8 @@ export const useQueryStore = defineStore("query", {
     state() {
         return useUrlSearchParams<ISearchParams>("history", {
             initialValue: {
-                platform: useStorage("platform", "popular"),
-                region: useStorage("region", "yorkshire"),
+                platform: useStorage<Platform>("platform", "popular"),
+                region: useStorage<Region>("region", "yorkshire"),
                 searchString: "",
                 genre: "",
                 type: "",

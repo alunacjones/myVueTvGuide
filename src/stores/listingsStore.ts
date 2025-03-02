@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getListings } from "../utils/api";
+import { getListings, type Platform, type Region } from "../utils/api";
 import { type IListing } from "../types";
 
 export const useListingsStore = defineStore("listings", {
@@ -11,7 +11,7 @@ export const useListingsStore = defineStore("listings", {
         }
     },
     actions: {
-        async fetchListings(date: Date, platform: string, region: string) {
+        async fetchListings(date: Date, platform: Platform, region: Region) {
             this.listings = await getListings(date, platform, region);
             
             var { genres, categories } = this.listings.flatMap(s => s.schedules)

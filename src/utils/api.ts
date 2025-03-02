@@ -2,7 +2,8 @@ import moment from "moment";
 import type { IListing } from "../types";
 
 const baseUrl = atob("aHR0cHM6Ly9hcGktMi50dmd1aWRlLmNvLnVrLw==");
-export function getDetails(id: string) {
+
+function getDetails(id: string) {
   return fetch(`${baseUrl}single?pa_id=${id}`).then((r) => r.json());
 }
 
@@ -72,7 +73,12 @@ function setCachedItem(key: string, value: IListing[]) {
   localStorage.setItem(cachedItemsKey, JSON.stringify(cachedItems));
 }
 
-function addToDates(listings: IListing[]) {
+/**
+ * Adds an `end_at` property to each schedule item
+ * @param listings the listings to add `end_at` properties to
+ * @returns the updated listings array
+ */
+function addToDates(listings: IListing[]): IListing[] {
     listings.flatMap(l => l.schedules).forEach((value, index, array) => {
         value.end_at = array[index + 1]?.start_at ?? moment(value.start_at).add(value.duration, "minutes").toJSON();        
     });
@@ -80,10 +86,20 @@ function addToDates(listings: IListing[]) {
     return listings;
 }
 
+export type Platform = "popular" | "freeview" | "virgin";
+export type Region = "yorkshire" | "north-west" | "";
+
+/**
+ * Fetches the array of `IListing`'s
+ * @param date the date to fetch listings for
+ * @param platform the platform to retrieve listings for
+ * @param region the region to retrieve listings for
+ * @returns the listings for the given parameters
+ */
 export async function getListings(
   date: Date,
-  platform: string,
-  region: string
+  platform: Platform,
+  region: Region
 ): Promise<IListing[]> {
   if (!platform) return [];
 
@@ -112,6 +128,12 @@ export async function getListings(
 
 const key = atob("ZDJmNjgzOQ==");
 
+/**
+ * Get an IMDB Url for the film name and year
+ * @param filmName The name of the filme
+ * @param year The year of the film
+ * @returns Returns the IMDB URL for the film or an IMDB search URL
+ */
 export async function getImdbUrl(filmName: string, year: number) {
   const film = await fetch(
     `https://www.omdbapi.com/?t=${encodeURIComponent(
