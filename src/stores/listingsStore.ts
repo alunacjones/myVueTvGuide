@@ -38,7 +38,7 @@ export const useListingsStore = defineStore("listings", {
             
             this.listings.forEach(l =>
             {
-                l.channelUrl = mapChannelSlugToUrl(l.slug);
+                l.channelUrl = mapChannelSlugToUrl(l.slug) ?? `https://www.google.com/search?client=firefox-b-d&q=watch+%22${encodeURIComponent(l.title)}%22+online`;;
             })
 
             this.genres = genres;
