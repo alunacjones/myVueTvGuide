@@ -12,16 +12,13 @@
                 <div>
                     <label>Platform</label>
                     <select v-model="platform">
-                        <option value="popular">Popular</option>
-                        <option value="freeview">Freeview</option>
-                        <option value="virgin">Virgin</option>
+                        <option v-for="item in platforms" :key="item.id" :value="item.id">{{ item.text }}</option>
                     </select>
                 </div>
                 <div v-if="platform !== 'popular'">
                     <label>Region</label>
                     <select v-model="region">
-                        <option value="yorkshire">Yorkshire</option>
-                        <option value="north-west">North West</option>
+                        <option v-for="item in regions" :key="item.id" :value="item.id">{{ item.text }}</option>
                     </select>
                 </div>
                 <div>
@@ -32,8 +29,7 @@
                     <label>Programme Type</label>
                     <select v-model="type">
                         <option value="">All</option>
-                        <option value="movie">Films</option>
-                        <option value="episode">Series</option>
+                        <option v-for="item in types" :key="item.id" :value="item.id">{{ item.text }}</option>
                     </select>
                 </div>
                 <div>
@@ -94,7 +90,7 @@ watch(ctrlSlash, v => {
         searchInput.value?.focus();
     }
 })
-const { searchString, type, day, genre, hideEmpty, platform, region, category, liveOnly } = storeToRefs(useQueryStore());
+const { platforms, regions, types, searchString, type, day, genre, hideEmpty, platform, region, category, liveOnly } = storeToRefs(useQueryStore());
 const listingsStore = useListingsStore();
 const { genres, categories: allCategories } = storeToRefs(useListingsStore());
 
@@ -121,6 +117,7 @@ const createOption = (days: number) => {
     }
 }
 
+//const days = computed(() => today.value ? [...Array(10).keys()].map(i => createOption(i - 1) ) : [])
 const days = ref([...Array(10).keys()].map(i => createOption(i - 1)));
 
 watchEffect(async () => {

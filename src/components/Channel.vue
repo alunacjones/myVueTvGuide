@@ -17,8 +17,12 @@ import type { IListing } from '../types';
 import type { IValue } from '../types/IValue';
 import ScheduleItem from './ScheduleItem.vue';
 import { computed, provide } from 'vue';
+import { useHeaderStore } from '../stores/headerStore';
+import { storeToRefs } from 'pinia';
 
+const { dayTitleHeight } = storeToRefs(useHeaderStore())
 const props = defineProps<IValue<IListing>>()
+const dayTitleHeightPx = computed(() => `${dayTitleHeight.value}px`)
 provide("channelUrl", props.value.channelUrl)
 const maps: any = {
     "BBC One London": "BBC1",
@@ -36,7 +40,7 @@ const channelName = computed(() => {
 <style lang="scss" scoped>
 .channel-heading-container {
     position: sticky;
-    top: 46px;
+    top: v-bind(dayTitleHeightPx);
     z-index: 100;
 
     .channel-heading {

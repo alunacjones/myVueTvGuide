@@ -87,7 +87,7 @@ function addToDates(listings: IListing[]): IListing[] {
 }
 
 export type Platform = "popular" | "freeview" | "virgin";
-export type Region = "yorkshire" | "north-west" | "";
+export type Region = "yorkshire" | "north-west" | "" | "wales";
 
 /**
  * Fetches the array of `IListing`'s

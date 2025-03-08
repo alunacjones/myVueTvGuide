@@ -30,5 +30,39 @@ export const useQueryStore = defineStore("query", {
             category: "",
             liveOnly: false         
         };
+    },
+    getters: {
+        platforms() {
+            return [
+                { "id": "popular", "text": "Popular" },
+                { "id": "freeview", "text": "Freeview" },
+                { "id": "virgin", "text": "Virgin" }
+            ]
+        },
+        regions() {
+            return [
+                { "id": "yorkshire", "text": "Yorkshire" },
+                { "id": "north-west", "text": "North West" },
+                { "id": "wales", "text": "Wales" }
+            ]            
+        },
+        types() {
+            return [
+                { "id": "movie", "text": "Films" },
+                { "id": "episode", "text": "Series" }
+            ]            
+        },
+        platformText(): string {
+            const platform = this.platform;
+            return this.platforms.find(p => p.id === platform)?.text ?? "";
+        },
+        regionText(): string {
+            const region = this.region;
+            return this.regions.find(p => p.id === region)?.text ?? "";
+        },
+        typeText(): string {
+            const type = this.type;
+            return this.types.find(p => p.id === type)?.text ?? "";
+        }        
     }
 })
