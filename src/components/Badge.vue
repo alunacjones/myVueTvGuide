@@ -1,10 +1,12 @@
 <template>
-    <div class="badge">
+    <div class="badge" @click="moveToTop">
         <div class="key">{{ title }}</div>
         <div class="value">{{ value }}</div>
     </div>
 </template>
 <script setup lang="ts">
+import { moveToTop } from '../composables/moveToTop';
+
 interface IBadgeProps {
     title: string
     value: string
@@ -17,6 +19,7 @@ defineProps<IBadgeProps>()
     display: flex;
     font-size: 0.7em;
     padding-top: 0.2em;
+    cursor: pointer;
 
     & > * {
         font-weight: 700;

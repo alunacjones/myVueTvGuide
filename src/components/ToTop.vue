@@ -6,9 +6,9 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useHeaderStore } from '../stores/headerStore';
+import { moveToTop } from '../composables/moveToTop';
 
 const { isVisible } = storeToRefs(useHeaderStore());
-const moveToTop = () => window.scrollTo({ top: 0, behavior: "smooth" })
 </script>
 <style lang="css" scoped>
 .to-top {
