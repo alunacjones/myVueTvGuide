@@ -24,18 +24,8 @@ const { dayTitleHeight } = storeToRefs(useHeaderStore())
 const props = defineProps<IValue<IListing>>()
 const dayTitleHeightPx = computed(() => `${dayTitleHeight.value}px`)
 provide("channelUrl", props.value.channelUrl)
-const maps: any = {
-    "BBC One London": "BBC1",
-    "BBC Two HD": "BBC2",
-    "ITV1 London": "ITV1",
-    "Channel 4 HD": "Channel 4",
-    "Channel 5 HD": "Channel 5",
-    "BBC Three HD": "BBC3",
-    "BBC Four HD": "BBC4"
-}
-const channelName = computed(() => {
-    return maps[(props.value.title as string)] ?? props.value.title
-})
+
+const channelName = computed(() => props.value.title)
 </script>
 <style lang="scss" scoped>
 .channel-heading-container {
