@@ -13,9 +13,10 @@ import type { IValue } from '../types/IValue';
 import TimeColumn from './TimeColumn.vue';
 import ItemDetails from './ItemDetails.vue';
 import { useScheduleDetails } from '../composables/scheduletem';
+import { toRef } from 'vue';
 
 const props = defineProps<IValue<ISchedule>>()
-const { isAMovie } = useScheduleDetails(props.value)
+const { isAMovie } = useScheduleDetails(toRef(props.value))
 </script>
 <style scoped lang="scss">
 @mixin highlight-item {
@@ -93,30 +94,5 @@ const { isAMovie } = useScheduleDetails(props.value)
     &.certification-18 {
         background-image: url(../assets/certifications/18.svg);
     }
-}
-
-@keyframes liveAnimation {
-    0% {
-        color: transparent;
-    }
-
-    50% {
-        color: #ffdd00d0;
-    }
-
-    100% {
-        color: transparent;
-    }
-}
-
-.live {
-    background-color: green;
-}
-
-.live::before {
-    content: '●';
-    font-size: 1.5em;
-    line-height: 0.5em;
-    animation: liveAnimation 1s infinite ease-in-out;
 }
 </style>

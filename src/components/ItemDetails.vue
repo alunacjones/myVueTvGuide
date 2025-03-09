@@ -17,13 +17,14 @@
     </div>
 </template>
 <script setup lang="ts">
+import { toRef } from 'vue';
 import { useScheduleDetails } from '../composables/scheduletem';
 import { type ISchedule } from '../types';
 import { type IValue } from '../types/IValue';
 import Categories from './Categories.vue';
 
 const props = defineProps<IValue<ISchedule>>();
-const { episode, genreInfo, isAMovie, meta, rating, summary } = useScheduleDetails(props.value);
+const { episode, genreInfo, isAMovie, meta, rating, summary } = useScheduleDetails(toRef(props.value));
 </script>
 <style lang="scss" scoped>
 .item-details {

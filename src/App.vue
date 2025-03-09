@@ -5,8 +5,10 @@ import Loading from 'vue-loading-overlay';
 import { useLoading } from './stores/loadingStore';
 import { storeToRefs } from 'pinia';
 import ToTop from './components/ToTop.vue';
+import { useKeyboardShortcuts } from './composables/keyboardShortcuts';
 
 const { isLoading } = storeToRefs(useLoading());
+useKeyboardShortcuts();
 </script>
 
 <template>

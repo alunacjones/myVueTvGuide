@@ -15,11 +15,12 @@ import type { IValue } from '../types/IValue';
 import { getImdbUrl } from '../utils/api';
 import Toastify from 'toastify-js';
 import { useScheduleDetails } from '../composables/scheduletem';
+import { toRef } from 'vue';
 
 const props = defineProps<IValue<ISchedule>>()
 
 const formatDate = (date: any, format: string) => moment(date).format(format);
-const { isAMovie, channelUrl, isCurrentlyOn, isNew } = useScheduleDetails(props.value)
+const { isAMovie, channelUrl, isCurrentlyOn, isNew } = useScheduleDetails(toRef(props.value))
 
 const gotoChannel = (e: Event) => {
     e.stopPropagation();
@@ -74,5 +75,30 @@ const searchImdb = async (e: Event) => {
 
 .new {
     background-color: red;
+}
+
+@keyframes liveAnimation {
+    0% {
+        color: transparent;
+    }
+
+    50% {
+        color: #ffdd00d0;
+    }
+
+    100% {
+        color: transparent;
+    }
+}
+
+.live {
+    background-color: green;
+}
+
+.live::before {
+    content: '●';
+    font-size: 1.5em;
+    line-height: 0.5em;
+    animation: liveAnimation 1s infinite ease-in-out;
 }
 </style>
