@@ -8,7 +8,7 @@ export interface ISearchParams
 {
     searchString: string
     genre: string
-    type: string
+    type: "" | "movie" | "episode"
     day: string,
     hideEmpty: Ref<boolean>
     platform: Ref<Platform>
@@ -28,7 +28,7 @@ export const useQueryStore = defineStore("query", {
             hideEmpty: useStorage<boolean>("hideEmpty", false),
             day: moment(new Date()).format("yyyy-MM-DD"),
             category: "",
-            liveOnly: false         
+            liveOnly: false
         };
     },
     getters: {
@@ -64,5 +64,14 @@ export const useQueryStore = defineStore("query", {
             const type = this.type;
             return this.types.find(p => p.id === type)?.text ?? "";
         }        
+    },
+    actions: {
+        clear() {
+            this.searchString = "";
+            this.genre = "";
+            this.type = "";
+            this.category = "";
+            this.liveOnly = false;
+        }
     }
 })

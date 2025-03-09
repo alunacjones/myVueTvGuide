@@ -1,5 +1,7 @@
 <template>
     <div style="display: flex;"
+        ref="item"
+        tabindex="0"
         :class="['schedule-item-details', isAMovie ? 'movie' : '']"
         @click="value ? value.expanded = !value?.expanded : void (0)">
 
@@ -12,9 +14,26 @@ import type { ISchedule } from '../types';
 import TimeColumn from './TimeColumn.vue';
 import ItemDetails from './ItemDetails.vue';
 import { useScheduleDetails } from '../composables/scheduleItem';
+import { onKeyStroke } from '@vueuse/core';
+import { ref } from 'vue';
 
+const item = ref();
 const value = defineModel<ISchedule>({ required: true });
+const { goToChannel, isCurrentlyOn } = useScheduleDetails(value);
 const { isAMovie } = useScheduleDetails(value);
+onKeyStroke([" ", "Enter"], (e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    value.value.expanded = !value.value.expanded;
+}, { target: item });
+
+onKeyStroke(["w"], e =>
+{
+    if (isCurrentlyOn.value) {
+        goToChannel(e);
+    }
+}, { target: item });
+
 </script>
 <style scoped lang="scss">
 @mixin highlight-item {

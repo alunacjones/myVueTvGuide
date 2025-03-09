@@ -2,6 +2,7 @@ import { computed, inject, type Ref } from "vue";
 import { type ISchedule } from "../types";
 import moment from "moment";
 import { useMyNow } from "./appNow";
+import { openWindow } from "../utils/windowOpener";
 
 export function useScheduleDetails(item: Ref<ISchedule>)
 {
@@ -49,6 +50,14 @@ export function useScheduleDetails(item: Ref<ISchedule>)
     const end = computed(() => moment(item.value?.end_at));
     const categories = computed(() => meta.value?.categories);
     const certification = computed(() => meta.value?.certification);
+    const goToChannel = (e?: Event) => {
+        e?.stopPropagation();
+
+        if (channelUrl) {
+            openWindow(channelUrl)
+            return;
+        }    
+    }
 
     return {
         isAMovie,
@@ -62,6 +71,7 @@ export function useScheduleDetails(item: Ref<ISchedule>)
         isCurrentlyOn,
         channelUrl,
         categories,
-        certification
+        certification,
+        goToChannel
     }
 }

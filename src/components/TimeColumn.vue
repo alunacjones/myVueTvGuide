@@ -5,42 +5,25 @@
             &nbsp;
         </div>
         <div v-if="isNew" class="badge new">NEW</div>
-        <div v-if="isCurrentlyOn" class="badge live" @click="gotoChannel">LIVE</div>
+        <div v-if="isCurrentlyOn" class="badge live" @click="goToChannel">LIVE</div>
     </div>
 </template>
 <script lang="ts" setup>
 import moment from 'moment';
 import type { ISchedule } from '../types';
 import { getImdbUrl } from '../utils/api';
-import Toastify from 'toastify-js';
 import { useScheduleDetails } from '../composables/scheduleItem';
+import { openWindow } from '../utils/windowOpener';
 
 const value = defineModel<ISchedule>({ required: true });
 
 const formatDate = (date: any, format: string) => moment(date).format(format);
-const { isAMovie, channelUrl, isCurrentlyOn, isNew } = useScheduleDetails(value)
-
-const gotoChannel = (e: Event) => {
-    e.stopPropagation();
-
-    if (channelUrl) {
-        window.open(channelUrl, "_blank", "noreferrer")
-        return;
-    }
-
-    Toastify({
-        text: "Sorry, we don't know how to find that channel",
-        position: "center"
-    }).showToast();
-};
+const { isAMovie, goToChannel, isCurrentlyOn, isNew } = useScheduleDetails(value)
 
 const searchImdb = async (e: Event) => {
     e.stopPropagation();
 
-    window.open(
-        await getImdbUrl(props.value?.details.title ?? "", props.value?.details.meta.year ?? 0),
-        "_blank",
-        "noreferrer");
+    openWindow(await getImdbUrl(value.value.details.title ?? "", value.value?.details.meta.year ?? 0));
 }
 </script>
 <style lang="scss" scoped>
