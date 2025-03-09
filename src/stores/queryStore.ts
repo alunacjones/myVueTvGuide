@@ -1,8 +1,14 @@
 import { useStorage } from "@vueuse/core";
 import moment from "moment";
-import { defineStore } from "pinia";
-import { type Ref } from "vue";
+import { defineStore, storeToRefs } from "pinia";
+import { ref, type Component, type Ref } from "vue";
 import { type Region, type Platform } from "../utils/api";
+import Select from "../components/queryComponents/Select.vue";
+import Input from "../components/queryComponents/Input.vue";
+import CheckBox from "../components/queryComponents/CheckBox.vue";
+import { useListingsStore } from "./listingsStore";
+import { useMyNow } from "../composables/appNow";
+
 
 export interface ISearchParams
 {
@@ -16,6 +22,19 @@ export interface ISearchParams
     category: string,
     liveOnly: boolean,
     newOnly: boolean
+}
+
+export interface ISearchDescriptor {
+    key: keyof ISearchParams
+    title: string
+    showOnFilterBadges: boolean,
+    queryComponent: Component
+    values?: Ref<IdAndText[]>
+}
+
+export interface IdAndText {
+    id: string,
+    text: string
 }
 
 export const useQueryStore = defineStore("query", {
@@ -34,37 +53,38 @@ export const useQueryStore = defineStore("query", {
         };
     },
     getters: {
-        platforms() {
-            return [
+        platforms(): Ref<IdAndText[]> {
+            return ref([    
                 { "id": "popular", "text": "Popular" },
                 { "id": "freeview", "text": "Freeview" },
                 { "id": "virgin", "text": "Virgin" }
-            ]
+            ]);
         },
-        regions() {
-            return [
+        regions(): Ref<IdAndText[]> {
+            return ref([
                 { "id": "yorkshire", "text": "Yorkshire" },
                 { "id": "north-west", "text": "North West" },
                 { "id": "wales", "text": "Wales" }
-            ]            
+            ]);      
         },
-        types() {
-            return [
+        types(): Ref<IdAndText[]> {
+            return ref([
+                { "id": "", "text": "All" },
                 { "id": "movie", "text": "Films" },
                 { "id": "episode", "text": "Series" }
-            ]            
+            ])  
         },
         platformText(): string {
             const platform = this.platform;
-            return this.platforms.find(p => p.id === platform)?.text ?? "";
+            return this.platforms.value.find(p => p.id === platform)?.text ?? "";
         },
         regionText(): string {
             const region = this.region;
-            return this.regions.find(p => p.id === region)?.text ?? "";
+            return this.regions.value.find(p => p.id === region)?.text ?? "";
         },
         typeText(): string {
             const type = this.type;
-            return this.types.find(p => p.id === type)?.text ?? "";
+            return this.types.value.find(p => p.id === type)?.text ?? "";
         }        
     },
     actions: {
@@ -74,6 +94,59 @@ export const useQueryStore = defineStore("query", {
             this.type = "";
             this.category = "";
             this.liveOnly = false;
-        }
+            this.newOnly = false;
+        },
+        getDisplayText(key: keyof ISearchParams) {
+            switch (key) {
+                case "platform":
+                    return this.platformText;
+                case "region":
+                    return this.regionText;
+                case "type":
+                    return this.typeText;
+                default:
+                    var value = this[key];
+                    if (typeof value === "boolean") {
+                        return value ? "Yes" : "No"
+                    }
+
+                    return value;
+            }
+        },
+        getSearchParamDescriptors(): ISearchDescriptor[] {
+            const today = useMyNow();
+            const createOption = (days: number): IdAndText => {
+                var date = moment(today.value).add(days, "days");
+                var dayOfWeek = date.format("dddd");
+                var mapping: any = {
+                    "-1": " (Yesterday)",
+                    "0": " (Today)",
+                    "1": " (Tomorrow)"
+                }
+            
+                const getExtraInfo = () => {
+                    return mapping[days.toString()] ?? ` (${date.format("Do MMM")})`
+                }
+            
+                return {
+                    text: `${dayOfWeek}${getExtraInfo()}`,
+                    id: date.format("yyyy-MM-DD")
+                }
+            }
+            const days = ref([...Array(10).keys()].map(i => createOption(i - 1)));
+            const { categories, genres } = storeToRefs(useListingsStore());
+            return [
+                { values: days, queryComponent: Select, key: "day", title: "Day", showOnFilterBadges: false },
+                { values: this.platforms, queryComponent: Select, key: "platform", title: "Platform", showOnFilterBadges: true },
+                { values: this.regions, queryComponent: Select, key: "region", title: "Region", showOnFilterBadges: true },
+                { queryComponent: Input, key: "searchString", title: "Search", showOnFilterBadges: true },
+                { values: genres, queryComponent: Select, key: "genre", title: "Genre", showOnFilterBadges: true },
+                { values: this.types, queryComponent: Select, key: "type", title: "Type", showOnFilterBadges: true },                
+                { values: categories, queryComponent: Select, key: "category", title: "Category", showOnFilterBadges: true },
+                { queryComponent: CheckBox, key: "hideEmpty", title: "Hide empty channels?", showOnFilterBadges: false },        
+                { queryComponent: CheckBox, key: "liveOnly", title: "On Now?", showOnFilterBadges: true },
+                { queryComponent: CheckBox, key: "newOnly", title: "Is New?", showOnFilterBadges: true },
+            ]
+        }        
     }
 })

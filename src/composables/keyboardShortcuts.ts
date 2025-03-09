@@ -2,19 +2,24 @@ import { useActiveElement, useMagicKeys } from "@vueuse/core";
 import { watchEffect } from "vue";
 import { useQueryStore } from "../stores/queryStore";
 import { storeToRefs } from "pinia";
+import { useHeaderStore } from "../stores/headerStore";
 
 export function useKeyboardShortcuts() {
-    const { f, e, l, s, c } = useMagicKeys();
+    const keys = useMagicKeys();
     const activeElement = useActiveElement();
     const queryStore = useQueryStore();
-    const { type, liveOnly } = storeToRefs(queryStore);
+    const headerStore = useHeaderStore();
+
+    const { type, liveOnly, newOnly } = storeToRefs(queryStore);
     
     const ignoredTags = ["INPUT", "TEXTAREA", "SELECT"];
+    const ctrlAndSlash = keys["Ctrl+/"]
+    const { f, e, l, s, c, n } = keys;
 
     watchEffect(() =>
     {
         if (ignoredTags.includes(activeElement.value?.tagName ?? "")) return;
-
+        
         if (f.value) {
             type.value = type.value === "movie" ? "" : "movie"
         }
@@ -29,6 +34,14 @@ export function useKeyboardShortcuts() {
 
         if (c.value) {
             queryStore.clear();
+        }
+
+        if (n.value) {
+            newOnly.value = !newOnly.value;
+        }
+
+        if (ctrlAndSlash.value) {
+            headerStore.focusSearch();
         }
     })
 }

@@ -45,7 +45,7 @@ const filteredData = computed(() => {
                 &&
                 (!queryOptions.liveOnly || (queryOptions.liveOnly && momentNow.isBetween(moment(s.start_at), moment(s.end_at))))
                 &&
-                (!queryOptions.newOnly) || (queryOptions.newOnly && s.details.meta?.attributes.includes("new"))
+                (!queryOptions.newOnly || (queryOptions.newOnly && s.details.meta?.attributes.includes("new")))
             )
         }
     })

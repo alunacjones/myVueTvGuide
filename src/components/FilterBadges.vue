@@ -1,24 +1,23 @@
 <template>
     <div class="filters" v-if="!isHeaderVisible">
-        <Badge title="Platform" :value="queryOptions.platformText" @click="moveToTop"/>
-        <Badge title="Region" :value="queryOptions.regionText" @click="moveToTop"/>
-        <Badge title="Search" :value="queryOptions.searchString" v-if="queryOptions.searchString" @click="moveToTop"/>
-        <Badge title="Type" :value="queryOptions.typeText" v-if="queryOptions.type" @click="moveToTop"/>
-        <Badge title="Genre" :value="queryOptions.genre" v-if="queryOptions.genre" @click="moveToTop"/>
-        <Badge title="Category" :value="queryOptions.category" v-if="queryOptions.category" @click="moveToTop"/>
-        <Badge title="Live?" value="Yes" v-if="queryOptions.liveOnly" @click="moveToTop"/>
-        <Badge title="Is New?" value="Yes" v-if="queryOptions.newOnly" @click="moveToTop"/>
+        <template v-for="item in descriptors" :key="item.key">
+            <Badge v-if="canShow(item)" :title="item.title" :value="formatValue(item)" @click="moveToTop"/>
+        </template>
     </div>
 </template>
 <script setup lang="ts">
 import { moveToTop } from '../composables/moveToTop';
 import { storeToRefs } from 'pinia';
-import { useQueryStore } from '../stores/queryStore';
+import { useQueryStore, type ISearchDescriptor } from '../stores/queryStore';
 import { useHeaderStore } from '../stores/headerStore';
 import Badge from './Badge.vue';
 
 const { isVisible: isHeaderVisible } = storeToRefs(useHeaderStore());
 const queryOptions = useQueryStore();
+const descriptors = queryOptions.getSearchParamDescriptors();
+
+const formatValue = (item: ISearchDescriptor) => queryOptions.getDisplayText(item.key);
+const canShow = (item: ISearchDescriptor) => item.showOnFilterBadges && queryOptions[item.key];
 </script>
 <style lang="scss" scoped>
 .filters {

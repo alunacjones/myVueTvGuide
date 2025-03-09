@@ -1,40 +1,44 @@
 import { defineStore } from "pinia";
 import { getListings, type Platform, type Region } from "../utils/api";
 import { type IListing } from "../types";
+import type { IdAndText } from "./queryStore";
 
 export const useListingsStore = defineStore("listings", {
     state() {
         return {
             listings: [] as IListing[],
-            genres: [] as string[],
-            categories: [] as string[]
+            genres: [] as IdAndText[],
+            categories: [] as IdAndText[]
         }
     },
     actions: {
         async fetchListings(date: Date, platform: Platform, region: Region) {
             this.listings = await getListings(date, platform, region);
             
+            const make = (text: string, value?: string): IdAndText => ({ id: value ?? text, text });
+            const prependAll = (array: IdAndText[]) => array.unshift(make("All", ""));
+
             var { genres, categories } = this.listings.flatMap(s => s.schedules)
                 .reduce((agg, i) =>
                 {
-                    if (agg.genres.indexOf(i.details.genre) === -1)
+                    if (!agg.genres.find(g => g.id === i.details.genre))
                     {
-                        agg.genres.push(i.details.genre);                        
+                        agg.genres.push(make(i.details.genre));
                     }
                     
-                    i.details.meta?.categories?.forEach((c: string) =>
+                    i.details.meta?.categories?.forEach((category: string) =>
                     {
-                        if (!agg.categories.includes(c)) {
-                            agg.categories.push(c);
+                        if (!agg.categories.find(c => c.id === category)) {
+                            agg.categories.push(make(category));
                         }
                     });
 
                     return agg;
                 },
-                { genres: [] as string[], categories: [] as string[] });
+                { genres: [] as IdAndText[], categories: [] as IdAndText[] });
 
-            genres.sort();
-            categories.sort();
+            prependAll(genres.sort());
+            prependAll(categories.sort());
             
             this.listings.forEach(l =>
             {
