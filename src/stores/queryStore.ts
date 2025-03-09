@@ -118,7 +118,7 @@ export const useQueryStore = defineStore("query", {
             const createOption = (days: number): IdAndText => {
                 var date = moment(today.value).add(days, "days");
                 var dayOfWeek = date.format("dddd");
-                var mapping: any = {
+                var mapping: Record<string, string> = {
                     "-1": " (Yesterday)",
                     "0": " (Today)",
                     "1": " (Tomorrow)"
