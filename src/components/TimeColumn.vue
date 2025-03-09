@@ -1,6 +1,6 @@
 <template>
     <div class="item-time">
-        <div>{{ formatDate(value?.start_at, 'H.mm') }}</div>
+        <div>{{ time }}</div>
         <div v-if="isAMovie" class="film-image" title="Click to search IMDB" @click="searchImdb">
             &nbsp;
         </div>
@@ -9,20 +9,15 @@
     </div>
 </template>
 <script lang="ts" setup>
-import moment from 'moment';
 import type { ISchedule } from '../types';
 import { getImdbUrl } from '../utils/api';
 import { useScheduleDetails } from '../composables/scheduleItem';
 import { openWindow } from '../utils/windowOpener';
 
 const value = defineModel<ISchedule>({ required: true });
-
-const formatDate = (date: any, format: string) => moment(date).format(format);
-const { isAMovie, goToChannel, isCurrentlyOn, isNew } = useScheduleDetails(value)
+const { time, isAMovie, goToChannel, isCurrentlyOn, isNew } = useScheduleDetails(value)
 
 const searchImdb = async (e: Event) => {
-    e.stopPropagation();
-
     openWindow(await getImdbUrl(value.value.details.title ?? "", value.value?.details.meta.year ?? 0));
 }
 </script>

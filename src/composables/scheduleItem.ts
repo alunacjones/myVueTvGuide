@@ -41,6 +41,7 @@ export function useScheduleDetails(item: Ref<ISchedule>)
             : ""
     });
 
+    const time = computed(() => moment(item.value.start_at).format("H.mm"));
     const now = useMyNow();
     const isNew = computed(() => attributes.value.includes("new"));
     const isCurrentlyOn = computed(() => moment(now.value).isBetween(start.value, end.value));
@@ -60,6 +61,7 @@ export function useScheduleDetails(item: Ref<ISchedule>)
     }
 
     return {
+        time,
         isAMovie,
         meta,
         isMorning,
