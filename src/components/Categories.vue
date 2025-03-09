@@ -1,15 +1,14 @@
 <template>
-    <p v-if="value?.expanded" class="categories">
-        <span class="badge" v-for="item in itemCategories" @click="filterCategory($event, item)">
-            {{ item }}
-        </span>
-    </p>
+    <div v-if="value?.expanded" class="categories">        
+        <Chip class="category" v-for="item in itemCategories" @click="filterCategory($event, item)" :text="item"/>
+    </div>
 </template>
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { type ISchedule } from '../types';
 import { useQueryStore } from '../stores/queryStore';
 import { useScheduleDetails } from '../composables/scheduleItem';
+import Chip from './Chip.vue';
 
 const { category } = storeToRefs(useQueryStore());
 const value = defineModel<ISchedule>({ required: true });
@@ -22,17 +21,17 @@ const filterCategory = (event: Event, item: string) => {
 
 </script>
 <style lang="scss" scoped>
-p.categories {
+div.categories {
     flex-wrap: wrap;
-    gap: 0.2em 0.3em;
     display: flex;
 }
 
-.badge {
+.category {
     background-color: grey;
     color: white;
     font-weight: bold;
     padding: 0.2em 0.3em;
+    margin: 0.2em;
     height: fit-content;
     border-radius: 0.5em;
 }

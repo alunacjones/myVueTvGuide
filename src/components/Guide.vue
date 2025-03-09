@@ -29,6 +29,7 @@ const now = useMyNow();
 
 const filteredData = computed(() => {
     const query = debouncedSearch.value?.toLowerCase();
+    const momentNow = moment(now.value);
 
     return listings.value.map((l: IListing) => {        
         return {
@@ -42,7 +43,9 @@ const filteredData = computed(() => {
                 &&
                 (!queryOptions.category || (queryOptions.category && (s.details.meta?.categories?.includes(queryOptions.category) ?? false)))
                 &&
-                (!queryOptions.liveOnly || (queryOptions.liveOnly && moment(now.value).isBetween(moment(s.start_at), moment(s.end_at))))
+                (!queryOptions.liveOnly || (queryOptions.liveOnly && momentNow.isBetween(moment(s.start_at), moment(s.end_at))))
+                &&
+                (!queryOptions.newOnly) || (queryOptions.newOnly && s.details.meta?.attributes.includes("new"))
             )
         }
     })

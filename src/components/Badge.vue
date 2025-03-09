@@ -1,18 +1,18 @@
 <template>
-    <div class="badge" @click="moveToTop">
+    <div class="badge" @click="emit('click')">
         <div class="key">{{ title }}</div>
         <div class="value">{{ value }}</div>
     </div>
 </template>
 <script setup lang="ts">
-import { moveToTop } from '../composables/moveToTop';
-
 interface IBadgeProps {
     title: string
     value: string
+    valueBackground?: string
 }
 
-defineProps<IBadgeProps>()
+const emit = defineEmits(["click"])
+const props = defineProps<IBadgeProps>()
 </script>
 <style lang="scss" scoped>
 .badge {
@@ -27,24 +27,25 @@ defineProps<IBadgeProps>()
         min-width: 0;        
     }
 
+    & > *:last-child {
+        border-top-right-radius: var(--border-radius);
+        border-bottom-right-radius: var(--border-radius);
+    }
+
+    & > *:first-child {
+        border-top-left-radius: var(--border-radius);
+        border-bottom-left-radius: var(--border-radius);        
+    }
+
     & > .key {
         background-color: black;
-        border-top-left-radius: var(--border-radius);
-        border-bottom-left-radius: var(--border-radius);
         color: white;
     }
 
     & > .value {
-        background-color: yellow;
-        border-top-right-radius: var(--border-radius);
-        border-bottom-right-radius: var(--border-radius);
+        background-color: v-bind("props.valueBackground ?? 'yellow'");
         text-overflow: ellipsis;
         overflow: hidden;
-    }
-
-    & > .chip {
-        background-color: yellow;
-        border-radius: var(--border-radius);
     }
 }
 </style>

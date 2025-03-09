@@ -47,17 +47,23 @@
                     </select>
                 </div>
                 <div>
-                    <div>
+                    <div class="checkbox-container">
                         <label for="hideEmpty">Hide empty channels?</label>
                         <input type="checkbox" id="hideEmpty" v-model="hideEmpty" />
                     </div>
                 </div>
                 <div>
-                    <div>
+                    <div class="checkbox-container">
                         <label for="onNow">On Now?</label>
                         <input type="checkbox" id="onNow" v-model="liveOnly" />
                     </div>
-                </div>                
+                </div>
+                <div>
+                    <div class="checkbox-container">
+                        <label for="newOnly">Is New?</label>
+                        <input type="checkbox" id="newOnly" v-model="newOnly" />
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -90,7 +96,20 @@ watch(ctrlSlash, v => {
         searchInput.value?.focus();
     }
 })
-const { platforms, regions, types, searchString, type, day, genre, hideEmpty, platform, region, category, liveOnly } = storeToRefs(useQueryStore());
+const {
+    platforms,
+    regions,
+    types,
+    searchString,
+    type,
+    day,
+    genre,
+    hideEmpty,
+    platform,
+    region,
+    category,
+    liveOnly,
+    newOnly } = storeToRefs(useQueryStore());
 const listingsStore = useListingsStore();
 const { genres, categories: allCategories } = storeToRefs(useListingsStore());
 
@@ -218,5 +237,10 @@ label {
     display: flex;
     flex-wrap: wrap;
     padding-top: 0.5em;
+}
+
+.checkbox-container {
+    box-shadow: 0 3px 3px -2px white;
+    margin: 0em 1em;
 }
 </style>
