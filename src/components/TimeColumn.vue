@@ -11,16 +11,14 @@
 <script lang="ts" setup>
 import moment from 'moment';
 import type { ISchedule } from '../types';
-import type { IValue } from '../types/IValue';
 import { getImdbUrl } from '../utils/api';
 import Toastify from 'toastify-js';
 import { useScheduleDetails } from '../composables/scheduleItem';
-import { toRef } from 'vue';
 
-const props = defineProps<IValue<ISchedule>>()
+const value = defineModel<ISchedule>({ required: true });
 
 const formatDate = (date: any, format: string) => moment(date).format(format);
-const { isAMovie, channelUrl, isCurrentlyOn, isNew } = useScheduleDetails(toRef(props.value))
+const { isAMovie, channelUrl, isCurrentlyOn, isNew } = useScheduleDetails(value)
 
 const gotoChannel = (e: Event) => {
     e.stopPropagation();
@@ -57,7 +55,7 @@ const searchImdb = async (e: Event) => {
     background-color: var(--time-background-colour);
     border-right: 3px white solid;
     text-align: right;
-    font-weight: 700;
+    font-weight: bold;
     display: flex;
     flex-direction: column;
     gap: 0.2em;
@@ -67,7 +65,7 @@ const searchImdb = async (e: Event) => {
 .badge {
     background-color: grey;
     color: white;
-    font-weight: 700;
+    font-weight: bold;
     padding: 0.2em 0.3em;
     height: fit-content;
     border-radius: 0.5em;

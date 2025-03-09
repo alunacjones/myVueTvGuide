@@ -8,32 +8,30 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { type ISchedule } from '../types';
-import type { IValue } from '../types/IValue';
 import { useQueryStore } from '../stores/queryStore';
-import { computed } from 'vue';
+import { useScheduleDetails } from '../composables/scheduleItem';
 
 const { category } = storeToRefs(useQueryStore());
-const props = defineProps<IValue<ISchedule>>()
+const value = defineModel<ISchedule>({ required: true });
+const { categories: itemCategories } = useScheduleDetails(value);
 
-    const filterCategory = (event: Event, item: string) => {
+const filterCategory = (event: Event, item: string) => {
     event.stopPropagation();
     category.value = item;
 }
 
-const itemCategories = computed(() => props.value?.details?.meta?.categories);
-
 </script>
 <style lang="scss" scoped>
-.categories {
+p.categories {
     flex-wrap: wrap;
-    gap: 0.3em;
+    gap: 0.2em 0.3em;
     display: flex;
 }
 
 .badge {
     background-color: grey;
     color: white;
-    font-weight: 700;
+    font-weight: bold;
     padding: 0.2em 0.3em;
     height: fit-content;
     border-radius: 0.5em;

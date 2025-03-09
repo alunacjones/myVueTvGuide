@@ -3,20 +3,18 @@
         :class="['schedule-item-details', isAMovie ? 'movie' : '']"
         @click="value ? value.expanded = !value?.expanded : void (0)">
 
-        <TimeColumn :value="value"/>
-        <ItemDetails :value="value" />
+        <TimeColumn :model-value="value"/>
+        <ItemDetails :model-value="value" />
     </div>
 </template>
 <script setup lang="ts">
 import type { ISchedule } from '../types';
-import type { IValue } from '../types/IValue';
 import TimeColumn from './TimeColumn.vue';
 import ItemDetails from './ItemDetails.vue';
 import { useScheduleDetails } from '../composables/scheduleItem';
-import { toRef } from 'vue';
 
-const props = defineProps<IValue<ISchedule>>()
-const { isAMovie } = useScheduleDetails(toRef(props.value))
+const value = defineModel<ISchedule>({ required: true });
+const { isAMovie } = useScheduleDetails(value);
 </script>
 <style scoped lang="scss">
 @mixin highlight-item {

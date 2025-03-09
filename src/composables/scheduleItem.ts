@@ -47,7 +47,9 @@ export function useScheduleDetails(item: Ref<ISchedule>)
     const attributes = computed(() => meta.value?.attributes ?? [])
     const start = computed(() => moment(item.value?.start_at));
     const end = computed(() => moment(item.value?.end_at));
-    
+    const categories = computed(() => meta.value?.categories);
+    const certification = computed(() => meta.value?.certification);
+
     return {
         isAMovie,
         meta,
@@ -58,6 +60,8 @@ export function useScheduleDetails(item: Ref<ISchedule>)
         episode,
         isNew,
         isCurrentlyOn,
-        channelUrl
+        channelUrl,
+        categories,
+        certification
     }
 }

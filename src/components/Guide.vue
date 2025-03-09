@@ -4,7 +4,7 @@
         <div class="channel-column-container">
             <div>
                 <div style="">
-                    <ChannelColumn v-for="channel in filteredData" :value="channel" />
+                    <ChannelColumn v-for="channel in filteredData" :model-value="channel" />
                 </div>
             </div>
         </div>

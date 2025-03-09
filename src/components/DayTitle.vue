@@ -34,7 +34,7 @@ const date = computed(() => moment(queryOptions.day).format("Do MMMM"))
     text-align: right;
     padding: 0.3em 0.3em 0.3em 0.3em;
     color: white;
-    font-weight: 700;
+    font-weight: bold;
     width: 100%;
     text-shadow: black 2px 2px;
 }

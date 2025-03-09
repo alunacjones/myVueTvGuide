@@ -1,7 +1,7 @@
 <template>
     <div v-if="shouldShow" class="channel-column">
         <div>
-            <Channel :value="value" />
+            <Channel :model-value="value" />
         </div>
     </div>
 </template>
@@ -11,13 +11,12 @@ import { useQueryStore } from '../stores/queryStore';
 import { storeToRefs } from 'pinia';
 import { computed } from 'vue';
 import type { IListing } from '../types';
-import type { IValue } from '../types/IValue';
 
 const { hideEmpty } = storeToRefs(useQueryStore())
 
-const props = defineProps<IValue<IListing>>()
+const value = defineModel<IListing>({ required: true })
 
-const shouldShow = computed(() => !hideEmpty.value || (props.value?.schedules?.length ?? 0) > 0)
+const shouldShow = computed(() => !hideEmpty.value || (value.value.schedules.length ?? 0) > 0)
 </script>
 <style lang="css" scoped>
 .channel-column {

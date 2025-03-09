@@ -22,7 +22,7 @@ defineProps<IBadgeProps>()
     cursor: pointer;
 
     & > * {
-        font-weight: 700;
+        font-weight: bold;
         padding: 0em 0.5em;
         min-width: 0;        
     }

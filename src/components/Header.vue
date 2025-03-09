@@ -145,7 +145,7 @@ watchEffect(async () => {
         &>span {
             color: white;
             font-size: 2rem;
-            font-weight: 700;
+            font-weight: bold;
             vertical-align: middle;
             align-content: center;
 
@@ -163,7 +163,7 @@ watchEffect(async () => {
         }
 
         & label {
-            font-weight: 700;
+            font-weight: bold;
             user-select: none;
         }
     }

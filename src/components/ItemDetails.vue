@@ -1,31 +1,24 @@
 <template>
     <div class="item-details">
-        <p>
-            <a :id="value?.pa_id" class="anchor"><span :class="['item-title']">{{ value?.title }}</span></a>
-            <span v-if="isAMovie">{{ rating }}</span>
-            <FilmCertification :model-value="meta?.certification"/>
-            <span v-if="!isAMovie">{{ episode }}</span>
-        </p>
+        <ItemTitle :model-value="model" />
         <p v-if="isAMovie">
-            {{ value?.details.meta.year }}
+            {{ model.details.meta.year }}
         </p>
         <p>{{ summary }}</p>
         <p class="genre">
             {{ genreInfo }}
         </p>
-        <Categories :value="value" />
+        <Categories :model-value="model" />
     </div>
 </template>
 <script setup lang="ts">
-import { toRef } from 'vue';
 import { useScheduleDetails } from '../composables/scheduleItem';
 import { type ISchedule } from '../types';
-import { type IValue } from '../types/IValue';
 import Categories from './Categories.vue';
-import FilmCertification from './FilmCertification.vue';
+import ItemTitle from './ItemTitle.vue';
 
-const props = defineProps<IValue<ISchedule>>();
-const { episode, genreInfo, isAMovie, meta, rating, summary } = useScheduleDetails(toRef(props.value));
+const model = defineModel<ISchedule>({ required: true });
+const { genreInfo, isAMovie, summary } = useScheduleDetails(model);
 </script>
 <style lang="scss" scoped>
 .item-details {
@@ -34,16 +27,8 @@ const { episode, genreInfo, isAMovie, meta, rating, summary } = useScheduleDetai
     &>p {
         margin: 0;
         display: flex;
-        gap: 1em;
+        flex-wrap: wrap;
     }
-}
-
-.item-title {
-    font-weight: 700;
-}
-
-.anchor {
-    color: black;
 }
 
 .genre {

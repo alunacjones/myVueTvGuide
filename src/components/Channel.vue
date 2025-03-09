@@ -7,25 +7,25 @@
             </div>
         </div>
         <div class="channel-schedules">
-            <ScheduleItem v-for="item in value.schedules" :value="item" />
+            <ScheduleItem v-for="item in value.schedules" :model-value="item" />
         </div>
     </div>
 
 </template>
 <script setup lang="ts">
-import type { IListing } from '../types';
-import type { IValue } from '../types/IValue';
+import { type IListing } from '../types';
 import ScheduleItem from './ScheduleItem.vue';
 import { computed, provide } from 'vue';
 import { useHeaderStore } from '../stores/headerStore';
 import { storeToRefs } from 'pinia';
 
 const { dayTitleHeight } = storeToRefs(useHeaderStore())
-const props = defineProps<IValue<IListing>>()
-const dayTitleHeightPx = computed(() => `${dayTitleHeight.value}px`)
-provide("channelUrl", props.value.channelUrl)
+const value = defineModel<IListing>({ required: true });
 
-const channelName = computed(() => props.value.title)
+const dayTitleHeightPx = computed(() => `${dayTitleHeight.value}px`)
+provide("channelUrl", value.value.channelUrl)
+
+const channelName = computed(() => value.value?.title)
 </script>
 <style lang="scss" scoped>
 .channel-heading-container {
@@ -34,7 +34,7 @@ const channelName = computed(() => props.value.title)
     z-index: 100;
 
     .channel-heading {
-        font-weight: 700;
+        font-weight: bold;
         background-color: red;
         display: flex;
         align-items: center;

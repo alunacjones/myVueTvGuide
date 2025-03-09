@@ -1,6 +1,6 @@
 <template>
     <div class="filters" v-if="!isHeaderVisible">
-        <Badge title="Platform" :value="queryOptions.platformText" />
+        <Badge title="Platform" :model-value="queryOptions.platformText" />
         <Badge title="Region" :value="queryOptions.regionText" />
         <Badge title="Search" :value="queryOptions.searchString" v-if="queryOptions.searchString" />
         <Badge title="Type" :value="queryOptions.typeText" v-if="queryOptions.type" />
