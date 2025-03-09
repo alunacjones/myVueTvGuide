@@ -4,7 +4,7 @@ import { defineStore, storeToRefs } from "pinia";
 import { ref, type Component, type Ref } from "vue";
 import { type Region, type Platform } from "../utils/api";
 import Select from "../components/queryComponents/Select.vue";
-import Input from "../components/queryComponents/Input.vue";
+import Search from "../components/queryComponents/Search.vue";
 import CheckBox from "../components/queryComponents/CheckBox.vue";
 import { useListingsStore } from "./listingsStore";
 import { useMyNow } from "../composables/appNow";
@@ -139,7 +139,7 @@ export const useQueryStore = defineStore("query", {
                 { values: days, queryComponent: Select, key: "day", title: "Day", showOnFilterBadges: false },
                 { values: this.platforms, queryComponent: Select, key: "platform", title: "Platform", showOnFilterBadges: true },
                 { values: this.regions, queryComponent: Select, key: "region", title: "Region", showOnFilterBadges: true },
-                { queryComponent: Input, key: "searchString", title: "Search", showOnFilterBadges: true },
+                { queryComponent: Search, key: "searchString", title: "Search", showOnFilterBadges: true },
                 { values: genres, queryComponent: Select, key: "genre", title: "Genre", showOnFilterBadges: true },
                 { values: this.types, queryComponent: Select, key: "type", title: "Type", showOnFilterBadges: true },                
                 { values: categories, queryComponent: Select, key: "category", title: "Category", showOnFilterBadges: true },
