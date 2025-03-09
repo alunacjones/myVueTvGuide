@@ -5,7 +5,6 @@
             <div class="search-items">
                 <div v-for="item in queryDescriptors" :key="item.key">
                     <label>{{ item.title }}</label>
-                    <!-- <pre>{{ item.values }}</pre> -->
                     <component :is="item.queryComponent" v-model="queryOptions[item.key]" :search-descriptor="item"></component>
                 </div>
             </div>

@@ -1,7 +1,7 @@
 import { useStorage } from "@vueuse/core";
 import moment from "moment";
 import { defineStore, storeToRefs } from "pinia";
-import { ref, type Component, type Ref } from "vue";
+import { computed, ref, type Component, type Ref } from "vue";
 import { type Region, type Platform } from "../utils/api";
 import Select from "../components/queryComponents/Select.vue";
 import Search from "../components/queryComponents/Search.vue";
@@ -115,6 +115,7 @@ export const useQueryStore = defineStore("query", {
         },
         getSearchParamDescriptors(): ISearchDescriptor[] {
             const today = useMyNow();
+            
             const createOption = (days: number): IdAndText => {
                 var date = moment(today.value).add(days, "days");
                 var dayOfWeek = date.format("dddd");
@@ -124,16 +125,14 @@ export const useQueryStore = defineStore("query", {
                     "1": " (Tomorrow)"
                 }
             
-                const getExtraInfo = () => {
-                    return mapping[days.toString()] ?? ` (${date.format("Do MMM")})`
-                }
+                const getExtraInfo = () => mapping[days.toString()] ?? ` (${date.format("Do MMM")})`
             
                 return {
                     text: `${dayOfWeek}${getExtraInfo()}`,
                     id: date.format("yyyy-MM-DD")
                 }
             }
-            const days = ref([...Array(10).keys()].map(i => createOption(i - 1)));
+            const days = computed(() => [...Array(10).keys()].map(i => createOption(i - 1)));
             const { categories, genres } = storeToRefs(useListingsStore());
             return [
                 { values: days, queryComponent: Select, key: "day", title: "Day", showOnFilterBadges: false },
