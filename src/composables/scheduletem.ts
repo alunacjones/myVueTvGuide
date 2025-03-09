@@ -1,6 +1,7 @@
-import { computed } from "vue";
+import { computed, inject } from "vue";
 import { type ISchedule } from "../types";
 import moment from "moment";
+import { useMyNow } from "./appNow";
 
 export function useScheduleDetails(item: ISchedule)
 {
@@ -38,6 +39,14 @@ export function useScheduleDetails(item: ISchedule)
             ? `${season}${episode}${title}`
             : ""
     });
+
+    const now = useMyNow();
+    const isNew = computed(() => attributes.value.includes("new"));
+    const isCurrentlyOn = computed(() => moment(now.value).isBetween(start.value, end.value));
+    const channelUrl = inject<string>("channelUrl")
+    const attributes = computed(() => meta.value?.attributes ?? [])
+    const start = computed(() => moment(item?.start_at));
+    const end = computed(() => moment(item?.end_at));
     
     return {
         isAMovie,
@@ -46,6 +55,9 @@ export function useScheduleDetails(item: ISchedule)
         summary,
         rating,
         genreInfo,
-        episode
+        episode,
+        isNew,
+        isCurrentlyOn,
+        channelUrl
     }
 }

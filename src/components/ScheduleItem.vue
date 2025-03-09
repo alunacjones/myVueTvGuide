@@ -8,14 +8,14 @@
     </div>
 </template>
 <script setup lang="ts">
-import { computed } from 'vue';
 import type { ISchedule } from '../types';
 import type { IValue } from '../types/IValue';
 import TimeColumn from './TimeColumn.vue';
 import ItemDetails from './ItemDetails.vue';
+import { useScheduleDetails } from '../composables/scheduletem';
 
 const props = defineProps<IValue<ISchedule>>()
-const isAMovie = computed(() => props.value?.type === "movie");
+const { isAMovie } = useScheduleDetails(props.value)
 </script>
 <style scoped lang="scss">
 @mixin highlight-item {

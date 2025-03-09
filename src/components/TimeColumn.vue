@@ -10,25 +10,16 @@
 </template>
 <script lang="ts" setup>
 import moment from 'moment';
-import { computed, inject } from 'vue';
-import { useMyNow } from '../composables/appNow';
 import type { ISchedule } from '../types';
 import type { IValue } from '../types/IValue';
 import { getImdbUrl } from '../utils/api';
 import Toastify from 'toastify-js';
+import { useScheduleDetails } from '../composables/scheduletem';
 
 const props = defineProps<IValue<ISchedule>>()
-const now = useMyNow();
-const meta = computed(() => props.value?.details?.meta);
-const attributes = computed(() => meta.value?.attributes ?? [])
 
-const start = computed(() => moment(props.value?.start_at));
-const end = computed(() => moment(props.value?.end_at));
 const formatDate = (date: any, format: string) => moment(date).format(format);
-const isAMovie = computed(() => props.value?.type === "movie");
-const isNew = computed(() => attributes.value.includes("new"));
-const isCurrentlyOn = computed(() => moment(now.value).isBetween(start.value, end.value));
-const channelUrl = inject<string>("channelUrl")
+const { isAMovie, channelUrl, isCurrentlyOn, isNew } = useScheduleDetails(props.value)
 
 const gotoChannel = (e: Event) => {
     e.stopPropagation();
