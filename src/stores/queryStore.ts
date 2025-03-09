@@ -8,6 +8,7 @@ import Search from "../components/queryComponents/Search.vue";
 import CheckBox from "../components/queryComponents/CheckBox.vue";
 import { useListingsStore } from "./listingsStore";
 import { useMyNow } from "../composables/appNow";
+import { createOption, platformValues, regionValues, typeValues } from "../utils/constants";
 
 
 export interface ISearchParams
@@ -53,27 +54,9 @@ export const useQueryStore = defineStore("query", {
         };
     },
     getters: {
-        platforms(): Ref<IdAndText[]> {
-            return ref([    
-                { "id": "popular", "text": "Popular" },
-                { "id": "freeview", "text": "Freeview" },
-                { "id": "virgin", "text": "Virgin" }
-            ]);
-        },
-        regions(): Ref<IdAndText[]> {
-            return ref([
-                { "id": "yorkshire", "text": "Yorkshire" },
-                { "id": "north-west", "text": "North West" },
-                { "id": "wales", "text": "Wales" }
-            ]);      
-        },
-        types(): Ref<IdAndText[]> {
-            return ref([
-                { "id": "", "text": "All" },
-                { "id": "movie", "text": "Films" },
-                { "id": "episode", "text": "Series" }
-            ])  
-        },
+        platforms: () => ref(platformValues),
+        regions: () => ref(regionValues),
+        types: () => ref(typeValues),
         platformText(): string {
             const platform = this.platform;
             return this.platforms.value.find(p => p.id === platform)?.text ?? "";
@@ -85,7 +68,7 @@ export const useQueryStore = defineStore("query", {
         typeText(): string {
             const type = this.type;
             return this.types.value.find(p => p.id === type)?.text ?? "";
-        }        
+        }
     },
     actions: {
         clear() {
@@ -115,24 +98,7 @@ export const useQueryStore = defineStore("query", {
         },
         getSearchParamDescriptors(): ISearchDescriptor[] {
             const today = useMyNow();
-            
-            const createOption = (days: number): IdAndText => {
-                var date = moment(today.value).add(days, "days");
-                var dayOfWeek = date.format("dddd");
-                var mapping: Record<string, string> = {
-                    "-1": " (Yesterday)",
-                    "0": " (Today)",
-                    "1": " (Tomorrow)"
-                }
-            
-                const getExtraInfo = () => mapping[days.toString()] ?? ` (${date.format("Do MMM")})`
-            
-                return {
-                    text: `${dayOfWeek}${getExtraInfo()}`,
-                    id: date.format("yyyy-MM-DD")
-                }
-            }
-            const days = computed(() => [...Array(10).keys()].map(i => createOption(i - 1)));
+            const days = computed(() => [...Array(10).keys()].map(i => createOption(i - 1, today)));
             const { categories, genres } = storeToRefs(useListingsStore());
             return [
                 { values: days, queryComponent: Select, key: "day", title: "Day", showOnFilterBadges: false },
