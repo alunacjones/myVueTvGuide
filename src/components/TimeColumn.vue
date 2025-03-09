@@ -14,7 +14,7 @@ import type { ISchedule } from '../types';
 import type { IValue } from '../types/IValue';
 import { getImdbUrl } from '../utils/api';
 import Toastify from 'toastify-js';
-import { useScheduleDetails } from '../composables/scheduletem';
+import { useScheduleDetails } from '../composables/scheduleItem';
 import { toRef } from 'vue';
 
 const props = defineProps<IValue<ISchedule>>()

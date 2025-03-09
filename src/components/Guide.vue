@@ -26,6 +26,7 @@ const queryOptions = useQueryStore();
 const { listings } = storeToRefs(useListingsStore());
 const debouncedSearch = refDebounced(computed(() => queryOptions.searchString), 500)
 const now = useMyNow();
+
 const filteredData = computed(() => {
     const query = debouncedSearch.value?.toLowerCase();
 

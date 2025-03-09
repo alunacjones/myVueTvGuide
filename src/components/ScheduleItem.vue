@@ -12,7 +12,7 @@ import type { ISchedule } from '../types';
 import type { IValue } from '../types/IValue';
 import TimeColumn from './TimeColumn.vue';
 import ItemDetails from './ItemDetails.vue';
-import { useScheduleDetails } from '../composables/scheduletem';
+import { useScheduleDetails } from '../composables/scheduleItem';
 import { toRef } from 'vue';
 
 const props = defineProps<IValue<ISchedule>>()

@@ -3,7 +3,7 @@
         <p>
             <a :id="value?.pa_id" class="anchor"><span :class="['item-title']">{{ value?.title }}</span></a>
             <span v-if="isAMovie">{{ rating }}</span>
-            <span v-if="isAMovie" :class="['certification', 'certification-' + meta?.certification]">&nbsp;</span>
+            <FilmCertification :model-value="meta?.certification"/>
             <span v-if="!isAMovie">{{ episode }}</span>
         </p>
         <p v-if="isAMovie">
@@ -18,10 +18,11 @@
 </template>
 <script setup lang="ts">
 import { toRef } from 'vue';
-import { useScheduleDetails } from '../composables/scheduletem';
+import { useScheduleDetails } from '../composables/scheduleItem';
 import { type ISchedule } from '../types';
 import { type IValue } from '../types/IValue';
 import Categories from './Categories.vue';
+import FilmCertification from './FilmCertification.vue';
 
 const props = defineProps<IValue<ISchedule>>();
 const { episode, genreInfo, isAMovie, meta, rating, summary } = useScheduleDetails(toRef(props.value));

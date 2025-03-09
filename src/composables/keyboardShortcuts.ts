@@ -4,7 +4,7 @@ import { useQueryStore } from "../stores/queryStore";
 import { storeToRefs } from "pinia";
 
 export function useKeyboardShortcuts() {
-    const { f, e, l } = useMagicKeys();
+    const { f, e, l, s } = useMagicKeys();
     const activeElement = useActiveElement();
     const { type, liveOnly } = storeToRefs(useQueryStore());
     const ignoredTags = ["INPUT", "TEXTAREA", "SELECT"];
@@ -17,7 +17,7 @@ export function useKeyboardShortcuts() {
             type.value = type.value == "movie" ? "" : "movie"
         }
 
-        if (e.value) {
+        if (e.value || s.value) {
             type.value = type.value == "episode" ? "" : "episode"
         }
 
