@@ -2,106 +2,22 @@
     <div style="display: flex;"
         :class="['schedule-item-details', isAMovie ? 'movie' : '']"
         @click="value ? value.expanded = !value?.expanded : void (0)">
-        
+
         <TimeColumn :value="value"/>
-        <div class="item-details">
-            <p>
-                <a :id="value?.pa_id" class="anchor"><span :class="['item-title']">{{ value?.title }}</span></a>
-                <span v-if="isAMovie">{{ rating }}</span>
-                <span v-if="isAMovie" :class="['certification', 'certification-' + meta?.certification]">&nbsp;</span>
-                <span v-if="!isAMovie">{{ episode }}</span>
-            </p>
-            <p v-if="isAMovie">
-                {{ value?.details.meta.year }}
-            </p>
-            <p>{{ summary }}</p>
-            <p class="genre">
-                {{ genreInfo }}
-            </p>
-            <p v-if="value?.expanded" class="categories">
-                <span class="badge" v-for="item in itemCategories" @click="filterCategory($event, item)">
-                    {{ item }}
-                </span>
-            </p>
-        </div>
+        <ItemDetails :value="value" />
     </div>
 </template>
 <script setup lang="ts">
-import moment from 'moment';
 import { computed } from 'vue';
-import { useQueryStore } from '../stores/queryStore';
-import { storeToRefs } from 'pinia';
 import type { ISchedule } from '../types';
 import type { IValue } from '../types/IValue';
 import TimeColumn from './TimeColumn.vue';
+import ItemDetails from './ItemDetails.vue';
 
-const { category } = storeToRefs(useQueryStore());
 const props = defineProps<IValue<ISchedule>>()
 const isAMovie = computed(() => props.value?.type === "movie");
-const meta = computed(() => props.value?.details?.meta);
-
-const rating = computed(() => {
-    const rating = Math.round((meta.value?.rating ?? 0) / 2);
-
-    return rating
-        ? "★".repeat(rating) + "☆".repeat(5 - rating)
-        : ""
-});
-
-const genreInfo = computed(() => {
-    const duration = props.value?.duration ? ` (${props.value?.duration} mins)` : "";
-    return `${props.value?.details?.genre}${duration}`;
-});
-
-const filterCategory = (event: Event, item: string) => {
-    event.stopPropagation();
-    category.value = item;
-}
-
-const itemCategories = computed(() => props.value?.details?.meta?.categories);
-
-const episode = computed(() => {
-    const meta = props.value?.details.meta;
-    const title = meta?.episode_title ? ` (${meta.episode_title})` : "";
-    const season = meta?.season ? `S${meta.season}` : "";
-    const episode = meta?.episode ? ` E${meta.episode}` : "";
-
-    return season && episode
-        ? `${season}${episode}${title}`
-        : ""
-});
-
-const isMorning = computed(() => {
-    const hour = moment(props.value?.start_at).hour();
-    return hour >= 0 && hour < 12;
-});
-
-const summary = computed(() => !isMorning.value || props.value?.expanded
-    ? props.value?.details.summary_long
-    : props.value?.details.summary_short);
-
 </script>
 <style scoped lang="scss">
-.item-details {
-    width: 100%;
-
-    &>p {
-        margin: 0;
-        display: flex;
-        gap: 1em;
-    }
-
-    .categories {
-        flex-wrap: wrap;
-        gap: 0.3em;
-        display: flex;
-    }
-}
-
-.item-title {
-    font-weight: 700;
-}
-
 @mixin highlight-item {
     background-color: #0002;
 
@@ -177,16 +93,6 @@ const summary = computed(() => !isMorning.value || props.value?.expanded
     &.certification-18 {
         background-image: url(../assets/certifications/18.svg);
     }
-}
-
-.anchor {
-    color: black;
-}
-
-.genre {
-    font-style: italic;
-    font-weight: 600;
-    color: gray;
 }
 
 @keyframes liveAnimation {
