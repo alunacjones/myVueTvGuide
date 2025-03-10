@@ -17,7 +17,7 @@ const props = defineProps<IBadgeProps>()
 <style lang="scss" scoped>
 .badge {
     display: flex;
-    font-size: 0.7em;
+    font-size: 0.8em;
     padding-top: 0.2em;
     cursor: pointer;
 

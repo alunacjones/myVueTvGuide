@@ -24,11 +24,11 @@ const dayTitleHeightPx = computed(() => `${dayTitleHeight.value}px`)
 
     .channel-heading {
         font-weight: bold;
-        background-color: red;
+        background-color: var(--heading-background-color);
         display: flex;
         align-items: center;
         justify-content: space-between;
-        color: white;
+        color: var(--heading-text-color);
         border-radius: var(--border-radius) var(--border-radius) 0px 0px;
         text-transform: uppercase;
         font-size: 1em;

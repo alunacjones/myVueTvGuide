@@ -13,7 +13,7 @@ defineProps<IRedChipOptions>();
 
 .red {    
     color: white;
-    background-color: red;
+    background-color: var(--heading-background-color);
     text-align: right;
 }
 </style>

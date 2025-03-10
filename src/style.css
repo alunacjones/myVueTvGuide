@@ -17,6 +17,9 @@
   --film-left-border-width: 5px;
   --channel-background: linear-gradient(#dfdf8e 0%, lightyellow 95%, white 100%);
   --border-radius: 0.5em;
+  --heading-background-color: red;
+  --heading-text-color: white;
+  --logo-size: 60px;
 }
 
 a {

@@ -1,7 +1,7 @@
 <template>
     <div ref="header" class="header">
         <div class="header-items">
-            <img src="../assets/guide.svg" style="width: 60px; height: 60px" />
+            <img class="logo" src="../assets/guide.svg" />
             <div class="search-items">
                 <QueryControl v-for="item in queryDescriptors" :key="item.key" :model-value="item"/>
             </div>
@@ -48,35 +48,36 @@ watchEffect(async () => {
 <style scoped lang="scss">
 .header {
     width: 100%;
-    background-color: red;
+    background-color: var(--heading-background-color);
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     flex-wrap: wrap;
+    padding: 0.5em 0;
 
+    .logo {
+        width: var(--logo-size);
+        height: var(--logo-size);
+        margin: 0.5em 1em;        
+    }
     .header-items {
         display: flex;
         flex-direction: row;
         align-items: center;
-        gap: 0;
-        color: white;
+        color: var(--heading-text-color);
+
+        & .search-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1em;
+            gap: 0.3em 1em;
+        }
 
         &>span {
-            color: white;
+            color: var(--heading-text-color);
             font-size: 2rem;
             font-weight: bold;
             vertical-align: middle;
             align-content: center;
 
-        }
-
-        &>img {
-            margin: 0.5em 1em;
-            background-color: white;
-            border-radius: var(--border-radius);
-        }
-
-        &>div {
-            display: flex;
-            gap: 0rem;
         }
 
         & label {
@@ -94,14 +95,13 @@ watchEffect(async () => {
 
 @media screen and (min-width: 100px) and (max-width: 1650px) {
     .header {
-        padding-bottom: 0.5em;
-
         .header-items {
             flex-direction: column;
 
             &>div {
                 border-left: 0px;
                 padding-left: 0em;
+                gap: 0.5em;
             }
 
             .search-items {
@@ -110,35 +110,16 @@ watchEffect(async () => {
                 align-items: center;
                 align-content: center;
                 flex-grow: 1;
-                width: 100%;
-                gap: 0.5em;
+                padding: 0 0.5em;
 
                 &>* {
                     flex-basis: 100%;
                     display: flex;
-                    justify-content: space-between;
                     margin-right: 0.5em;
                     flex-grow: 1;
                 }
             }
         }
     }
-}
-
-label {
-    text-wrap-mode: nowrap;
-    padding-right: 1em;
-    padding-left: 1em;
-}
-
-.search-items {
-    display: flex;
-    flex-wrap: wrap;
-    padding-top: 0.5em;
-}
-
-.checkbox-container {
-    box-shadow: 0 3px 3px -2px white;
-    margin: 0em 1em;
 }
 </style>
