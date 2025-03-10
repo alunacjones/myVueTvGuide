@@ -18,6 +18,10 @@ export function useKeyboardShortcuts() {
 
     watchEffect(() =>
     {
+        if (ctrlAndSlash.value) {
+            headerStore.focusSearch();
+        }
+
         if (ignoredTags.includes(activeElement.value?.tagName ?? "")) return;
         
         if (f.value) {
@@ -38,10 +42,6 @@ export function useKeyboardShortcuts() {
 
         if (n.value) {
             newOnly.value = !newOnly.value;
-        }
-
-        if (ctrlAndSlash.value) {
-            headerStore.focusSearch();
         }
     })
 }
