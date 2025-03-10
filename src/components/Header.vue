@@ -1,9 +1,13 @@
 <template>
     <div ref="header" class="header">
         <div class="header-items">
-            <img class="logo" src="../assets/guide.svg" />
+            <div class="logo">
+                <img src="../assets/guide.svg" />
+                <button class="button" @click="clear">Reset</button>
+            </div>
+
             <div class="search-items">
-                <QueryControl v-for="item in queryDescriptors" :key="item.key" :model-value="item"/>
+                <QueryControl v-for="item in queryDescriptors" :key="item.key" :model-value="item" />
             </div>
         </div>
     </div>
@@ -24,12 +28,13 @@ const { isLoading } = storeToRefs(useLoading())
 const header = useTemplateRef<HTMLDivElement>("header")
 const queryOptions = useQueryStore();
 const queryDescriptors = queryOptions.getSearchParamDescriptors();
+const { clear } = useQueryStore();
 
 const {
     day,
     genre,
     platform,
-    region,
+    region,    
 } = storeToRefs(useQueryStore());
 
 const listingsStore = useListingsStore();
@@ -53,11 +58,25 @@ watchEffect(async () => {
     flex-wrap: wrap;
     padding: 0.5em 0;
 
-    .logo {
-        width: var(--logo-size);
-        height: var(--logo-size);
-        margin: 0.5em 1em;        
+    .button {
+        height: 1.5em;
+        padding: 2px 5px;
+        font-size: 1em;
+        border: 1px solid black;
     }
+
+    .logo {
+        display: flex;
+        margin: 0.5em 1em;
+        align-items: center;
+        gap: 0.5em;
+
+        &>img {
+            width: var(--logo-size);
+            height: var(--logo-size);
+        }
+    }
+
     .header-items {
         display: flex;
         flex-direction: row;
