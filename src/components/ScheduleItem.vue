@@ -1,6 +1,5 @@
 <template>
-    <div style="display: flex;"
-        ref="item"
+    <div ref="item"
         tabindex="0"
         :class="['schedule-item-details', isAMovie ? 'movie' : '']"
         @click="value ? value.expanded = !value?.expanded : void (0)">
@@ -47,6 +46,7 @@ onKeyStroke(["w"], e =>
 }
 
 .schedule-item-details {
+    display: flex;
     border: 0px;
     border-left: var(--film-left-border-width) solid var(--time-background-colour);
     cursor: pointer;

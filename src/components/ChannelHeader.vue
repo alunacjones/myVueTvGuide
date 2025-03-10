@@ -18,6 +18,7 @@ const dayTitleHeightPx = computed(() => `${dayTitleHeight.value}px`)
 </script>
 <style lang="scss" scoped>
 .channel-heading-container {
+    outline: 2px solid white;    
     position: sticky;
     top: v-bind(dayTitleHeightPx);
     z-index: 100;
@@ -32,7 +33,6 @@ const dayTitleHeightPx = computed(() => `${dayTitleHeight.value}px`)
         border-radius: var(--border-radius) var(--border-radius) 0px 0px;
         text-transform: uppercase;
         font-size: 1em;
-        border-bottom: white 1px solid;
 
         &>* {
             padding: 0px 0em;

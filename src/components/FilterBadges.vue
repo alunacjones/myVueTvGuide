@@ -27,7 +27,8 @@ const canShow = (item: ISearchDescriptor) => item.showOnFilterBadges && queryOpt
     gap: 0.5em;
     flex-wrap: wrap;
     justify-content: center;
-
+    padding-top: 0.2em;
+    
     &>* {
         max-width: 90%;
     }

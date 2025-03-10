@@ -52,6 +52,7 @@ const date = computed(() => moment(queryOptions.day).format("Do MMMM"))
 }
 
 .day-title {
+    outline: 2px solid white;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -59,7 +60,5 @@ const date = computed(() => moment(queryOptions.day).format("Do MMMM"))
     top: 0;
     z-index: 200;
     background-color: purple;
-    border-top: 2px solid white;
-    border-bottom: 2px solid white;
 }
 </style>
