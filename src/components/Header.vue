@@ -3,10 +3,7 @@
         <div class="header-items">
             <img src="../assets/guide.svg" style="width: 60px; height: 60px" />
             <div class="search-items">
-                <div v-for="item in queryDescriptors" :key="item.key">
-                    <label>{{ item.title }}</label>
-                    <component :is="item.queryComponent" v-model="queryOptions[item.key]" :search-descriptor="item"></component>
-                </div>
+                <QueryControl v-for="item in queryDescriptors" :key="item.key" :model-value="item"/>
             </div>
         </div>
     </div>
@@ -19,6 +16,7 @@ import { useListingsStore } from "../stores/listingsStore"
 import { useIntersectionObserver } from '@vueuse/core';
 import { useLoading } from '../stores/loadingStore';
 import { useHeaderStore } from '../stores/headerStore';
+import QueryControl from './QueryControl.vue';
 
 const { isVisible } = storeToRefs(useHeaderStore());
 const { isLoading } = storeToRefs(useLoading())
