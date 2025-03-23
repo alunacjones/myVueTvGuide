@@ -1,7 +1,7 @@
 import { useStorage } from "@vueuse/core";
 import moment from "moment";
 import { defineStore, storeToRefs } from "pinia";
-import { computed, ref, type Component, type Ref } from "vue";
+import { computed, ref, type Component, type ComputedRef, type Ref } from "vue";
 import { type Region, type Platform } from "../utils/api";
 import Select from "../components/queryComponents/Select.vue";
 import Search from "../components/queryComponents/Search.vue";
@@ -30,7 +30,8 @@ export interface ISearchDescriptor {
     title: string
     showOnFilterBadges: boolean,
     queryComponent: Component
-    values?: Ref<IdAndText[]>
+    values?: Ref<IdAndText[]>,
+    showOrHide?: ComputedRef<boolean>
 }
 
 export interface IdAndText {
@@ -100,10 +101,14 @@ export const useQueryStore = defineStore("query", {
             const today = useMyNow();
             const days = computed(() => [...Array(10).keys()].map(i => createOption(i - 1, today)));
             const { categories, genres } = storeToRefs(useListingsStore());
+            const { platform } = storeToRefs(useQueryStore());
+
             return [
                 { values: days, queryComponent: Select, key: "day", title: "Day", showOnFilterBadges: false },
                 { values: this.platforms, queryComponent: Select, key: "platform", title: "Platform", showOnFilterBadges: true },
-                { values: this.regions, queryComponent: Select, key: "region", title: "Region", showOnFilterBadges: true },
+                { values: this.regions, queryComponent: Select, key: "region", title: "Region", showOnFilterBadges: true, showOrHide: computed(() => { 
+                    return platform.value !== "popular" 
+                })},
                 { queryComponent: Search, key: "searchString", title: "Search", showOnFilterBadges: true },
                 { values: genres, queryComponent: Select, key: "genre", title: "Genre", showOnFilterBadges: true },
                 { values: this.types, queryComponent: Select, key: "type", title: "Type", showOnFilterBadges: true },                
