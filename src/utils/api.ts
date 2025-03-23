@@ -1,7 +1,7 @@
 import moment from "moment";
 import type { IListing } from "../types";
 
-const baseUrl = atob("aHR0cHM6Ly9hcGktMi50dmd1aWRlLmNvLnVrLw==");
+const baseUrl = "https://tv-guide-ma6ecfmh7-alun-jones-projects.vercel.app/";
 
 function getDetails(id: string) {
   return fetch(`${baseUrl}single?pa_id=${id}`).then((r) => r.json());
