@@ -34,6 +34,6 @@ const { genreInfo, isAMovie, summary } = useScheduleDetails(model);
 .genre {
     font-style: italic;
     font-weight: 600;
-    color: gray;
+    color: #0008;
 }
 </style>
