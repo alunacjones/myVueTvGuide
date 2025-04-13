@@ -1,7 +1,7 @@
-import { useStorage } from "@vueuse/core";
+import { useStorage, useUrlSearchParams } from "@vueuse/core";
 import moment from "moment";
 import { defineStore, storeToRefs } from "pinia";
-import { computed, ref, type Component, type ComputedRef, type Ref } from "vue";
+import { computed, ref, type Component, type ComputedRef, type Ref, type WritableComputedRef } from "vue";
 import { type Region, type Platform } from "../utils/api";
 import Select from "../components/queryComponents/Select.vue";
 import Search from "../components/queryComponents/Search.vue";
@@ -10,10 +10,13 @@ import { useListingsStore } from "./listingsStore";
 import { useMyNow } from "../composables/appNow";
 import { createOption, platformValues, regionValues, typeValues } from "../utils/constants";
 
+export interface ISearchString {
+    searchString: string
+}
 
 export interface ISearchParams
 {
-    searchString: string
+    searchString: Ref<string>
     genre: string
     type: "" | "movie" | "episode"
     day: string,
@@ -41,10 +44,20 @@ export interface IdAndText {
 
 export const useQueryStore = defineStore("query", {
     state(): ISearchParams {
+        const urlParameters = useUrlSearchParams<ISearchString>("history", {
+            initialValue: { searchString: "" },
+            removeFalsyValues: true            
+        });
+
+        const searchString = computed({
+            get: () => urlParameters.searchString,
+            set: value => urlParameters.searchString = value
+        })
+
         return {
             platform: useStorage<Platform>("platform", "popular"),
             region: useStorage<Region>("region", "yorkshire"),
-            searchString: "",
+            searchString: searchString,
             genre: "",
             type: "",
             hideEmpty: useStorage<boolean>("hideEmpty", false),
