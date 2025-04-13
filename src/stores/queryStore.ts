@@ -1,7 +1,7 @@
 import { useStorage, useUrlSearchParams } from "@vueuse/core";
 import moment from "moment";
 import { defineStore, storeToRefs } from "pinia";
-import { computed, ref, type Component, type ComputedRef, type Ref, type WritableComputedRef } from "vue";
+import { computed, ref, type Component, type ComputedRef, type Ref } from "vue";
 import { type Region, type Platform } from "../utils/api";
 import Select from "../components/queryComponents/Select.vue";
 import Search from "../components/queryComponents/Search.vue";
