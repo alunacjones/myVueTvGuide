@@ -3,6 +3,7 @@ import { watchEffect } from "vue";
 import { useQueryStore } from "../stores/queryStore";
 import { storeToRefs } from "pinia";
 import { useHeaderStore } from "../stores/headerStore";
+import { moveToTop } from "./moveToTop";
 
 export function useKeyboardShortcuts() {
     const keys = useMagicKeys();
@@ -14,7 +15,7 @@ export function useKeyboardShortcuts() {
     
     const ignoredTags = ["INPUT", "TEXTAREA", "SELECT"];
     const ctrlAndSlash = keys["Ctrl+/"]
-    const { f, e, l, s, c, n } = keys;
+    const { f, e, l, s, c, n, t } = keys;
 
     watchEffect(() =>
     {
@@ -42,6 +43,10 @@ export function useKeyboardShortcuts() {
 
         if (n.value) {
             newOnly.value = !newOnly.value;
+        }
+
+        if (t.value) {
+            moveToTop();
         }
     })
 }
