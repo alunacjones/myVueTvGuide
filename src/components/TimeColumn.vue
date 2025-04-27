@@ -19,7 +19,8 @@ import RedChip from './RedChip.vue';
 const value = defineModel<ISchedule>({ required: true });
 const { time, isAMovie, goToChannel, isCurrentlyOn, isNew } = useScheduleDetails(value)
 
-const searchImdb = async () => {
+const searchImdb = async (e: Event) => {
+    e.stopPropagation();
     openWindow(await getImdbUrl(value.value.details.title ?? "", value.value?.details.meta.year ?? 0));
 }
 </script>
