@@ -1,7 +1,7 @@
 <template>
     <div class="item-title">
         <a :id="model?.pa_id" class="anchor"><span>{{ model.title }}</span></a>
-        <span v-if="isAMovie">{{ rating }}</span>
+        <span v-if="isAMovie" class="rating">{{ rating }}</span>
         <FilmCertification :model-value="certification" />
         <span v-if="!isAMovie">{{ episode }}</span>
     </div>
@@ -19,10 +19,15 @@ const { isAMovie, rating, episode, certification } = useScheduleDetails(model);
     display: flex;
     gap: 1em;
     font-weight: normal;
+    padding-right: 0.5em;
 
     .anchor {
         color: black;
         font-weight: bold;
+    }
+
+    .rating {
+        font-size: 1.6em;
     }
 }
 </style>
