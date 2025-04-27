@@ -4,6 +4,7 @@ import { useQueryStore } from "../stores/queryStore";
 import { storeToRefs } from "pinia";
 import { useHeaderStore } from "../stores/headerStore";
 import { moveToTop } from "./moveToTop";
+import { onKeyStroke } from "@vueuse/core";
 
 export function useKeyboardShortcuts() {
     const keys = useMagicKeys();
@@ -16,6 +17,15 @@ export function useKeyboardShortcuts() {
     const ignoredTags = ["INPUT", "TEXTAREA", "SELECT"];
     const ctrlAndSlash = keys["Ctrl+/"]
     const { f, e, l, s, c, n, t } = keys;
+
+    onKeyStroke("u", (e: KeyboardEvent) =>
+    {
+        console.log("handler", new Date())
+        if (e.ctrlKey) {
+            e.preventDefault();
+            headerStore.loseSearchFocus();
+        }
+    });
 
     watchEffect(() =>
     {

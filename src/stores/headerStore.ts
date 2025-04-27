@@ -16,6 +16,11 @@ export const useHeaderStore = defineStore("header", {
                 this.searchElement.select();
                 this.searchElement.focus();
             }            
+        },
+        loseSearchFocus() {
+            if (this.searchElement) {
+                this.searchElement.blur();
+            }
         }
     }
 })
