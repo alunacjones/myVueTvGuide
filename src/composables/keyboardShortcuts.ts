@@ -20,7 +20,6 @@ export function useKeyboardShortcuts() {
 
     onKeyStroke("u", (e: KeyboardEvent) =>
     {
-        console.log("handler", new Date())
         if (e.ctrlKey) {
             e.preventDefault();
             headerStore.loseSearchFocus();
