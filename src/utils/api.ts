@@ -112,14 +112,17 @@ export async function getListings(
     return Promise.resolve(addToDates(cached));
   }
 
-  var result = addToDates(
-    combineListings([
-      await getListingsForDateAndTime(formattedDate, 6, platform, region),
-      await getListingsForDateAndTime(formattedDate, 12, platform, region),
-      await getListingsForDateAndTime(formattedDate, 18, platform, region),
-      await getListingsForDateAndTime(formattedDate, 24, platform, region),
-    ])
-  );
+  console.log(new Date(), "Start fetching all listings")
+  var allResults = await Promise.all([
+    getListingsForDateAndTime(formattedDate, 6, platform, region),
+    getListingsForDateAndTime(formattedDate, 12, platform, region),
+    getListingsForDateAndTime(formattedDate, 18, platform, region),
+    getListingsForDateAndTime(formattedDate, 24, platform, region),
+  ]);
+
+  console.log(new Date(), "Finished fetching all listings")
+  
+  var result = addToDates(combineListings(allResults));
 
   setCachedItem(storageKey, result);
 
