@@ -5,7 +5,7 @@
             &nbsp;
         </div>
         <RedChip v-if="isNew" class="new" text="NEW" />
-        <LiveChip v-if="isCurrentlyOn" class="live" text="LIVE" @click="goToChannel"/>
+        <LiveChip v-if="isCurrentlyOn" class="live" text="LIVE" @click="goToChannel" />
     </div>
 </template>
 <script lang="ts" setup>
@@ -40,6 +40,18 @@ const searchImdb = async (e: Event) => {
     display: flex;
     flex-direction: column;
     gap: 0.2em;
-    padding-left: 1px;    
+    padding-left: 1px;
+
+    &.afternoon {
+        background-color: darken(#F0cEcA, 5%);
+    }
+
+    &.evening {
+        background-color: darken(#F0cEcA, 10%);
+    }
+
+    &.night {
+        background-color: darken(#F0cEcA, 15%);
+    }
 }
 </style>
