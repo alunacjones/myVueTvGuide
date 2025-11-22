@@ -43,13 +43,8 @@ onKeyStroke(["w"], e => {
 </script>
 <style scoped lang="scss">
 @mixin highlight-item {
-    background-color: #0002;
-
-    .item-time {
-        background-color: var(--darker-time-background-color);
-    }
-
     background: yellow;
+    filter: contrast(1.5);
 }
 
 .schedule-item-details {
