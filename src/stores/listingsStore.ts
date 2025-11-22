@@ -37,8 +37,8 @@ export const useListingsStore = defineStore("listings", {
                 },
                 { genres: [] as IdAndText[], categories: [] as IdAndText[] });
 
-            prependAll(genres.sort());
-            prependAll(categories.sort());
+            prependAll(genres.sort(sortIdAndTextField));
+            prependAll(categories.sort(sortIdAndTextField));
             
             this.listings.forEach(l =>
             {
@@ -81,3 +81,4 @@ const mappings = [
 });
 
 const mapChannelSlugToUrl = (slug: string) => mappings.find(m => m.matcher(slug))?.url;
+const sortIdAndTextField = (a: IdAndText, b :IdAndText) => a.text < b.text ? -1 : 1;
