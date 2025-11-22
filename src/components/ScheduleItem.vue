@@ -72,15 +72,15 @@ onKeyStroke(["w"], e => {
     }
 
     &.afternoon:not(.movie) {
-        border-left: solid darken(#F0cEcA, 5%);
+        border-left: var(--film-left-border-width) solid darken(#F0cEcA, 5%);
     }
 
     &.evening:not(.movie) {
-        border-left: solid darken(#F0cEcA, 10%);
+        border-left: var(--film-left-border-width)  solid darken(#F0cEcA, 10%);
     }
 
     &.night:not(.movie) {
-        border-left: solid darken(#F0cEcA, 15%);
+        border-left: var(--film-left-border-width) solid darken(#F0cEcA, 15%);
     }
 }
 
