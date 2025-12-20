@@ -25,7 +25,8 @@ export interface ISearchParams
     region: Ref<Region>,
     category: string,
     liveOnly: boolean,
-    newOnly: boolean
+    newOnly: boolean,
+    seasonal: boolean
 }
 
 export interface ISearchDescriptor {
@@ -64,7 +65,8 @@ export const useQueryStore = defineStore("query", {
             day: moment(new Date()).format("yyyy-MM-DD"),
             category: "",
             liveOnly: false,
-            newOnly: false
+            newOnly: false,
+            seasonal: true
         };
     },
     getters: {
@@ -129,6 +131,7 @@ export const useQueryStore = defineStore("query", {
                 { queryComponent: CheckBox, key: "hideEmpty", title: "Hide empty channels?", showOnFilterBadges: false },        
                 { queryComponent: CheckBox, key: "liveOnly", title: "On Now?", showOnFilterBadges: true },
                 { queryComponent: CheckBox, key: "newOnly", title: "Is New?", showOnFilterBadges: true },
+                { queryComponent: CheckBox, key: "seasonal", title: "Seasonal display?", showOnFilterBadges: false },
             ]
         }        
     }

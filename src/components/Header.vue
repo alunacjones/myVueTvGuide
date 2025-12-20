@@ -2,7 +2,7 @@
     <div ref="header" class="header">
         <div class="header-items">
             <div class="logo">
-                <img src="../assets/guide.svg" />
+                <img src="../assets/guide2.svg" />
                 <button class="button" @click="clear">Reset</button>
             </div>
 
@@ -10,6 +10,7 @@
                 <QueryControl v-for="item in queryDescriptors" :key="item.key" :model-value="item" />
             </div>
         </div>
+        <Christmas v-if="queryOptions.seasonal"/>        
     </div>
 </template>
 <script setup lang="ts">
@@ -21,6 +22,7 @@ import { useIntersectionObserver } from '@vueuse/core';
 import { useLoading } from '../stores/loadingStore';
 import { useHeaderStore } from '../stores/headerStore';
 import QueryControl from './QueryControl.vue';
+import Christmas from './seasonal/Christmas.vue';
 
 const { isVisible } = storeToRefs(useHeaderStore());
 const { isLoading } = storeToRefs(useLoading())
