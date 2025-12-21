@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import moment from 'moment';
 import { getBirthday } from '../../utils/seasonHelper';
-const birthday = getBirthday(moment())?.name;
+const birthday = `${getBirthday(moment())?.name}!`;
 </script>
 <style scoped lang="scss">
 .birthday {
