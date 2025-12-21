@@ -16,7 +16,7 @@ const birthday = `${getBirthday(moment())?.name}!`;
     align-items: center;
 
     .name {
-        cursor: pointer;
+        pointer-events: none;
         color: yellow;
         font-weight: bold;
         font-size: 1.5em;
