@@ -26,7 +26,7 @@ export interface ISearchParams
     category: string,
     liveOnly: boolean,
     newOnly: boolean,
-    seasonal: boolean
+    seasonal: Ref<boolean>
 }
 
 export interface ISearchDescriptor {
@@ -66,7 +66,7 @@ export const useQueryStore = defineStore("query", {
             category: "",
             liveOnly: false,
             newOnly: false,
-            seasonal: true
+            seasonal: useStorage<boolean>("seasonal", true)
         };
     },
     getters: {
