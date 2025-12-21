@@ -5,6 +5,8 @@
 </div>	
 </template>
 <style lang="scss">
+@use "sass:math";
+
 $particles: 50;
 $width: 500;
 $height: 500;
@@ -14,9 +16,9 @@ $box-shadow: ();
 $box-shadow2: ();
 @for $i from 0 through $particles {
   $box-shadow: $box-shadow,
-               random($width)-$width / 2 + px
-               random($height)-$height / 1.2 + px
-               hsl(random(360), 100, 50);
+               calc(math.random($width) - $width / 2) + px
+               calc(math.random($height) - $height / 1.2) + px
+               hsl(math.random(360), 100%, 50%);
   $box-shadow2: $box-shadow2, 0 0 #fff
 }
 @mixin keyframes ($animationName) {
