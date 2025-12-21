@@ -8,7 +8,6 @@ export enum Season {
 }
 
 export async function getSeason(): Promise<Season> {
-    return Season.Easter
     var today = moment();
     if (today.month() === 11) return Season.Christmas;
     if (await isNearEaster(today)) return Season.Easter;
