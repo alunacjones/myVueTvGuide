@@ -42,6 +42,8 @@ onKeyStroke(["w"], e => {
 
 </script>
 <style scoped lang="scss">
+@use "sass:color";
+
 @mixin highlight-item {
     background: yellow;
     filter: contrast(1.5);
@@ -67,15 +69,15 @@ onKeyStroke(["w"], e => {
     }
 
     &.afternoon:not(.movie) {
-        border-left: var(--film-left-border-width) solid darken(#F0cEcA, 5%);
+        border-left: var(--film-left-border-width) solid color.adjust(#F0cEcA, $lightness: -5%);
     }
 
     &.evening:not(.movie) {
-        border-left: var(--film-left-border-width)  solid darken(#F0cEcA, 10%);
+        border-left: var(--film-left-border-width)  solid color.adjust(#F0cEcA, $lightness: -10%);
     }
 
     &.night:not(.movie) {
-        border-left: var(--film-left-border-width) solid darken(#F0cEcA, 15%);
+        border-left: var(--film-left-border-width) solid color.adjust(#F0cEcA, $lightness: -15%);
     }
 }
 

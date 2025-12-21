@@ -1,4 +1,4 @@
-import moment from "moment";
+import moment, { type Moment } from "moment";
 import type { IListing } from "../types";
 
 const baseUrl = "https://tv-guide-ma6ecfmh7-alun-jones-projects.vercel.app/";
@@ -149,4 +149,46 @@ export async function getImdbUrl(filmName: string, year: number) {
   return film.imdbID
     ? `https://www.imdb.com/title/${film.imdbID}`
     : `https://www.imdb.com/find/?q=${encodeURIComponent(filmName)}`;
+}
+
+var holidays: IBankHolidays | null = null;
+
+export async function getBankHolidays() : Promise<IBankHolidays> {
+  return (holidays ??= await fetch(
+    "https://www.gov.uk/bank-holidays.json "
+  )
+  .then(r => r.json()))
+}
+
+export async function getGoodFriday() : Promise<Moment>
+{
+  const holidays = await getBankHolidays();
+  const now = moment();
+  const thisYear = now.year().toString();
+  const goodFriday = holidays["england-and-wales"].events.filter(e => e.date.startsWith(thisYear) && e.title == "Good Friday")[0]
+
+  return moment(goodFriday.date);
+}
+
+export async function isNearEaster(date: Moment) : Promise<boolean>
+{
+  const goodFriday = await getGoodFriday();
+  return Math.abs(goodFriday.diff(date, "days")) <= 3;
+}
+
+export interface IBankHolidays
+{
+  "england-and-wales": IHolidays
+}
+
+export interface IHolidays
+{
+  division: string
+  events: IEvent[]
+}
+
+export interface IEvent
+{
+  title: string
+  date: string
 }

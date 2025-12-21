@@ -2,7 +2,7 @@
     <div ref="header" class="header">
         <div class="header-items">
             <div class="logo">
-                <img src="../assets/guide2.svg" />
+                <Logo />
                 <button class="button" @click="clear">Reset</button>
             </div>
 
@@ -10,19 +10,20 @@
                 <QueryControl v-for="item in queryDescriptors" :key="item.key" :model-value="item" />
             </div>
         </div>
-        <Christmas v-if="queryOptions.seasonal"/>        
+        <Seasonal v-if="queryOptions.seasonal"/>        
     </div>
 </template>
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
+import Logo from './Logo.vue';
 import { useQueryStore } from '../stores/queryStore';
-import { useTemplateRef, watchEffect } from 'vue';
+import { onMounted, ref, useTemplateRef, watchEffect } from 'vue';
 import { useListingsStore } from "../stores/listingsStore"
 import { useIntersectionObserver } from '@vueuse/core';
 import { useLoading } from '../stores/loadingStore';
 import { useHeaderStore } from '../stores/headerStore';
 import QueryControl from './QueryControl.vue';
-import Christmas from './seasonal/Christmas.vue';
+import Seasonal from './seasonal/Seasonal.vue';
 
 const { isVisible } = storeToRefs(useHeaderStore());
 const { isLoading } = storeToRefs(useLoading())

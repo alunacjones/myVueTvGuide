@@ -25,6 +25,8 @@ const searchImdb = async (e: Event) => {
 }
 </script>
 <style lang="scss" scoped>
+@use "sass:color";
+
 .film-image {
     background: url(../assets/film.svg) no-repeat right;
     height: 30px;
@@ -43,15 +45,15 @@ const searchImdb = async (e: Event) => {
     padding-left: 1px;
 
     &.afternoon {
-        background-color: darken(#F0cEcA, 5%);
+        background-color: color.adjust(#F0cEcA, $lightness: -5%);
     }
 
     &.evening {
-        background-color: darken(#F0cEcA, 10%);
+        background-color: color.adjust(#F0cEcA, $lightness: -10%);
     }
 
     &.night {
-        background-color: darken(#F0cEcA, 15%);
+        background-color: color.adjust(#F0cEcA, $lightness: -15%);
     }
 }
 </style>
