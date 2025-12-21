@@ -8,9 +8,13 @@ import ChristmasLogo from './seasonal/ChristmasLogo.vue';
 import { getSeason, Season } from '../utils/seasonHelper'
 import EasterLogo from './seasonal/EasterLogo.vue';
 import NewYearLogo from './seasonal/NewYearLogo.vue';
+import { useQueryStore } from '../stores/queryStore';
+import { storeToRefs } from 'pinia';
+const { seasonal } = storeToRefs(useQueryStore());
 
 const logoComponent = computedAsync(
     async () => {
+        if (!seasonal.value) return null;
         switch (await getSeason())
         {
             case Season.Christmas: return ChristmasLogo;
