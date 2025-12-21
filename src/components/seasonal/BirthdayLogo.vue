@@ -19,12 +19,8 @@ const birthday = `${getBirthday(moment())?.name}!`;
         cursor: pointer;
         color: yellow;
         font-weight: bold;
+        font-size: 1.5em;
         text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
-        transition: transform 0.3s;
-
-        &:hover {
-            transform: scale(2);
-        }
     }
 }
 </style>
