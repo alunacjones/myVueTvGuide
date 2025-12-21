@@ -13,6 +13,7 @@ const component = computedAsync(async () =>
     {
         case Season.Christmas: return Christmas;
         case Season.NewYear: return NewYear;
+        case Season.Birthday: return NewYear;
         default: return null;
     }
 },

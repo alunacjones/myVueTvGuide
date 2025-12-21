@@ -10,6 +10,7 @@ import EasterLogo from './seasonal/EasterLogo.vue';
 import NewYearLogo from './seasonal/NewYearLogo.vue';
 import { useQueryStore } from '../stores/queryStore';
 import { storeToRefs } from 'pinia';
+import BirthdayLogo from './seasonal/BirthdayLogo.vue';
 const { seasonal } = storeToRefs(useQueryStore());
 
 const logoComponent = computedAsync(
@@ -20,6 +21,7 @@ const logoComponent = computedAsync(
             case Season.Christmas: return ChristmasLogo;
             case Season.Easter: return EasterLogo;
             case Season.NewYear: return NewYearLogo;
+            case Season.Birthday: return BirthdayLogo;
             default: return null;
         }
     },
