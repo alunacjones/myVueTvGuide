@@ -17,7 +17,7 @@
 import { storeToRefs } from 'pinia';
 import Logo from './Logo.vue';
 import { useQueryStore } from '../stores/queryStore';
-import { onMounted, ref, useTemplateRef, watchEffect } from 'vue';
+import { useTemplateRef, watchEffect } from 'vue';
 import { useListingsStore } from "../stores/listingsStore"
 import { useIntersectionObserver } from '@vueuse/core';
 import { useLoading } from '../stores/loadingStore';
