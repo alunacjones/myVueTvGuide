@@ -5,14 +5,15 @@
 import Christmas from './Christmas.vue';
 import { computedAsync } from '@vueuse/core';
 import { getSeason, Season } from '../../utils/seasonHelper';
+import NewYear from './NewYear.vue';
 
 const component = computedAsync(async () =>
 {
     switch (await getSeason())
     {
         case Season.Christmas: return Christmas;
-        case Season.Easter: return null;
-        case Season.None: return null;
+        case Season.NewYear: return NewYear;
+        default: return null;
     }
 },
 null)

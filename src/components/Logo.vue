@@ -7,14 +7,16 @@ import { computedAsync } from '@vueuse/core';
 import ChristmasLogo from './seasonal/ChristmasLogo.vue';
 import { getSeason, Season } from '../utils/seasonHelper'
 import EasterLogo from './seasonal/EasterLogo.vue';
+import NewYearLogo from './seasonal/NewYearLogo.vue';
 
 const logoComponent = computedAsync(
     async () => {
         switch (await getSeason())
         {
-            case Season.None: return null;
             case Season.Christmas: return ChristmasLogo;
             case Season.Easter: return EasterLogo;
+            case Season.NewYear: return NewYearLogo;
+            default: return null;
         }
     },
     null
