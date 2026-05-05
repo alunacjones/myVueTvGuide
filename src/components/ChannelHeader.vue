@@ -47,6 +47,8 @@ const dayTitleHeightPx = computed(() => `${dayTitleHeight.value}px`)
             border: 1px solid white;
             border-radius: var(--border-radius);
             height: 1.8em;
+            background-color: white;
+            padding: 0 0.2em;
         }
     }
 }

@@ -3,7 +3,7 @@
         <a :id="model?.pa_id" class="anchor"><span>{{ model.title }}</span></a>
         <span v-if="isAMovie" class="rating">{{ rating }}</span>
         <FilmCertification :model-value="certification" />
-        <span v-if="!isAMovie">{{ episode }}</span>
+        <span v-if="!isAMovie" class="episode">{{ episode }}</span>
     </div>
 </template>
 <script lang="ts" setup>
@@ -20,6 +20,13 @@ const { isAMovie, rating, episode, certification } = useScheduleDetails(model);
     gap: 1em;
     font-weight: normal;
     padding-right: 0.5em;
+
+    .episode {
+        font-size: 0.8em;
+        color: #0008;
+        font-style: italic;
+        font-weight: bold;
+    }
 
     .anchor {
         color: black;
