@@ -3,7 +3,7 @@
         <a :id="model?.pa_id" class="anchor"><span>{{ model.title }}</span></a>
         <span v-if="isAMovie" class="rating">{{ rating }}</span>
         <FilmCertification :model-value="certification" />
-        <span v-if="!isAMovie" class="episode">{{ episode }}</span>
+        <span v-if="!isAMovie" class="episode" @click="searchForEpisode">{{ episode }}</span>
     </div>
 </template>
 <script lang="ts" setup>
@@ -13,6 +13,12 @@ import FilmCertification from './FilmCertification.vue';
 
 const model = defineModel<ISchedule>({ required: true })
 const { isAMovie, rating, episode, certification } = useScheduleDetails(model);
+const searchForEpisode = (e: Event) => { 
+    const query = encodeURIComponent(`${model.value.title} ${episode.value}`)
+    e.stopPropagation()
+    window.open(`https://www.google.com/search?client=firefox-b-d&q=${query}`, "_blank")
+}
+
 </script>
 <style lang="scss" scoped>
 .item-title {
