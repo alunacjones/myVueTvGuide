@@ -20,6 +20,7 @@ const { isAMovie, rating, episode, certification } = useScheduleDetails(model);
     gap: 1em;
     font-weight: normal;
     padding-right: 0.5em;
+    justify-content: space-between;
 
     .episode {
         font-size: 0.8em;
