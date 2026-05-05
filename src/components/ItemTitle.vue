@@ -33,6 +33,7 @@ const searchForEpisode = (e: Event) => {
         color: #0008;
         font-style: italic;
         font-weight: bold;
+        cursor: pointer;
     }
 
     .anchor {

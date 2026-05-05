@@ -53,7 +53,7 @@ onKeyStroke(["w"], e => {
     display: flex;
     border: 0px;
     border-left: var(--film-left-border-width) solid var(--time-background-colour);
-    cursor: pointer;
+    cursor: default;
     user-select: none;
     font-size: 0.8em;
     line-height: 1.2em;
